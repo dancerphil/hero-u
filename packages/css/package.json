@@ -1,0 +1,27 @@
+{
+  "name": "@hero-u/css",
+  "version": "0.0.1",
+  "description": "hero-u css utility",
+  "keywords": [
+    "hero-u"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "license": "MIT",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "@emotion/css": ">=11"
+  }
+}
