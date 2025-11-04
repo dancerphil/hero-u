@@ -1,7 +1,7 @@
 {
-  "name": "@hero-u/css",
+  "name": "@hero-u/hooks",
   "version": "0.0.1",
-  "description": "hero-u css utility",
+  "description": "hero-u react hooks utility",
   "keywords": [
     "hero-u"
   ],
@@ -25,6 +25,9 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "@emotion/css": ">=11"
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "react": "^19.1.1"
   }
 }
