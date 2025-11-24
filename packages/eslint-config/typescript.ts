@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import typescriptEslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 
 const gitignorePath = path.resolve('.', '.gitignore');
@@ -20,8 +20,17 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
         name: 'js/config',
         ...eslint.configs.recommended,
     },
-    ...tseslint.configs.strict,
-    ...tseslint.configs.stylistic,
+    {
+        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+            parserOptions: {
+                parser: typescriptEslint.parser,
+            },
+        },
+    },
+    ...typescriptEslint.configs.strict,
+    ...typescriptEslint.configs.stylistic,
     stylisticConfigs,
     // 开启
     {
