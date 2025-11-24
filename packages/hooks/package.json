@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "description": "hero-u react hooks utility",
   "keywords": [
-    "hero-u"
+    "hero-u",
+    "react",
+    "hooks"
   ],
   "repository": "github:dancerphil/hero-u",
-  "license": "MIT",
   "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
   "type": "module",
   "main": "es/index.js",
   "module": "es/index.js",
@@ -28,6 +30,7 @@
     "react": ">=18"
   },
   "devDependencies": {
-    "react": "^19.1.1"
+    "react": "^19.1.1",
+    "@types/react": "^19.1.8"
   }
 }

@@ -1,4 +1,4 @@
-import {css, keyframes} from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
 
 export const width = (number: number) => css`
     width: ${number}px !important;

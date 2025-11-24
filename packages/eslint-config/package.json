@@ -1,0 +1,40 @@
+{
+  "name": "@hero-u/eslint-config",
+  "version": "0.3.2",
+  "description": "A simple ESLint config",
+  "keywords": [
+    "hero-u",
+    "eslint",
+    "eslint-config"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "*.js",
+    "*.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsc",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "eslint": "^9.39.1"
+  },
+  "dependencies": {
+    "@eslint/compat": "^2.0.0",
+    "@eslint/js": "^9.39.1",
+    "@stylistic/eslint-plugin": "^5.6.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "typescript-eslint": "^8.47.0"
+  }
+}

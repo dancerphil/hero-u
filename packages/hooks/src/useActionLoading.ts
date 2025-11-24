@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from 'react';
 
 type AsyncFunction = (...args: any[]) => Promise<any>;
 

@@ -1,3 +1,5 @@
 /node_modules
 /packages/*/node_modules
 /packages/*/es
+/packages/eslint-config/*.js
+/packages/eslint-config/*.d.ts
