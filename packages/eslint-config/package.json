@@ -1,6 +1,6 @@
 {
   "name": "@hero-u/eslint-config",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A simple ESLint config",
   "keywords": [
     "hero-u",
@@ -33,10 +33,12 @@
     "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.39.1",
     "@stylistic/eslint-plugin": "^5.6.0",
+    "typescript-eslint": "^8.47.0"
+  },
+  "devDependencies": {
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-vue": "^10.6.0",
-    "globals": "^16.5.0",
-    "typescript-eslint": "^8.47.0"
+    "globals": "^16.5.0"
   }
 }
