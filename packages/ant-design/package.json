@@ -1,11 +1,10 @@
 {
-  "name": "@hero-u/hooks",
+  "name": "@hero-u/ant-design",
   "version": "0.0.1",
-  "description": "hero-u react hooks utility",
+  "description": "hero-u Ant Design utility",
   "keywords": [
     "hero-u",
-    "react",
-    "hooks"
+    "Ant Design"
   ],
   "repository": "github:dancerphil/hero-u",
   "author": "Cong Zhang <dancerphil1994@gmail.com>",
@@ -27,10 +26,12 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
+    "antd": ">=6.0.0",
     "react": ">=19"
   },
   "devDependencies": {
-    "react": "^19.2.1",
-    "@types/react": "^19.2.7"
+    "@types/react": "^19.2.7",
+    "antd": "^6.1.0",
+    "react": "^19.2.1"
   }
 }

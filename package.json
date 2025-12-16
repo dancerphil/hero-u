@@ -13,7 +13,7 @@
     "publish-all": "pnpm lint-all && pnpm --filter './packages/*' publish"
   },
   "devDependencies": {
-    "@hero-u/eslint-config": "link:/Users/dancerphil/github/hero-u/packages/eslint-config",
+    "@hero-u/eslint-config": "workspace:*",
     "@types/node": "^24.10.1",
     "eslint": "^9.30.1",
     "husky": "^9.1.7",
