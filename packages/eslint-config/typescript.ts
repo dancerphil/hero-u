@@ -50,7 +50,6 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
-            'guard-for-in': 'error',
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
@@ -73,6 +72,7 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             // 后端经常返回一些带下划线的字段，方便起见关闭，但还是建议使用驼峰命名
             'no-underscore-dangle': 'off',
             // 接受各个类型的 for 循环以便表达各种场景
+            'guard-for-in': 'off',
             '@typescript-eslint/prefer-for-of': 'off',
             // 允许使用 ts-ignore 注释
             '@typescript-eslint/ban-ts-comment': 'off',
