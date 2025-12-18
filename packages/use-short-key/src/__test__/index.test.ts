@@ -42,6 +42,23 @@ describe('useHotKey', () => {
         expect(value).toBe(1);
     });
 
+    test('press ⌘c | ⌃c', () => {
+        let value = 0;
+        renderHook(() => useShortKey({
+            shortcuts: [{ metaKey: true, code: 'KeyC' }, { ctrlKey: true, code: 'KeyC' }],
+            keydown: () => {
+                value++;
+            },
+        }));
+        expect(value).toBe(0);
+        fireEvent.keyDown(document.body, { metaKey: true, code: 'KeyC' });
+        expect(value).toBe(1);
+        fireEvent.keyDown(document.body, { ctrlKey: true, code: 'KeyC' });
+        expect(value).toBe(2);
+        fireEvent.keyDown(document.body, { metaKey: true, ctrlKey: true, code: 'KeyC' });
+        expect(value).toBe(2);
+    });
+
     test('press ⌥⌘C', () => {
         let value = 0;
         renderHook(() => useShortKey({

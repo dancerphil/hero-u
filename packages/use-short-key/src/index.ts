@@ -1,9 +1,8 @@
-/* eslint-disable max-lines */
 import { useEffect, useRef } from 'react';
+import { ShortcutConfig } from './types.js';
+import { isFormField, isEventMatched } from './matchedUtils.js';
 
-type PickedKeyboardEvent = Pick<KeyboardEvent, 'code' | 'key' | 'metaKey' | 'ctrlKey' | 'altKey' | 'shiftKey' | 'repeat'>;
-
-interface Options extends Partial<PickedKeyboardEvent> {
+interface Options extends ShortcutConfig {
     /**
      * 默认 loose 为 false，此时为严格模式。严格模式下，将检查组合键（Meta, Ctrl, Alt, Shift）的匹配，不仅设定为需要按下的组合键需要被按下，且没有设定的键不能被按下。比如如果注册了 `Meta+C` 的快捷键，当用户按下 `Meta+Alt+C` 时将不会响应，因为此时 Alt 键被错误的按下，仅在确切的 Meta+C 被按下时，注册的快捷键才会响应。
      * 如果手动设置为 true，那么将启用宽松模式。宽松模式下，组合键只会匹配为已定义的（如 metaKey: true 或 metaKey: false），未定义的组合键不做检查（如 metaKey: undefined 或者没有传入）。
@@ -17,93 +16,24 @@ interface Options extends Partial<PickedKeyboardEvent> {
      * includeFormField 不传的情况，默认为 false，即不触发快捷键。
      */
     includeFormField?: boolean;
+    shortcuts?: ShortcutConfig[];
     keypress?: (e: KeyboardEvent) => void;
     keydown?: (e: KeyboardEvent) => void;
     keyup?: (e: KeyboardEvent) => void;
 }
 
-type ComposingKey = 'ctrlKey' | 'shiftKey' | 'altKey' | 'metaKey';
-type ComposingKeys = ComposingKey[];
-
-const composingKeys: ComposingKeys = ['ctrlKey', 'shiftKey', 'altKey', 'metaKey'];
-
-// trigger e.repeat === false by default, trigger all when options.repeat === true
-const isRepeatMatched = (e: KeyboardEvent, options: Options) => {
-    if (options.repeat === true) {
-        return true;
-    }
-    return !e.repeat;
-};
-
-const isComposingMatched = (e: KeyboardEvent, options: Options) => {
-    if (!options.loose) {
-        // omit shift if key used, like key: `?`
-        const shiftMatched = options.key
-            ? true
-            : Boolean(e.shiftKey) === Boolean(options.shiftKey);
-        // check both truthy and falsy
-        return (
-            Boolean(e.ctrlKey) === Boolean(options.ctrlKey)
-            && shiftMatched
-            && Boolean(e.altKey) === Boolean(options.altKey)
-            && Boolean(e.metaKey) === Boolean(options.metaKey)
-        );
-    }
-    // loose: only check when options.key is defined
-    const keys = composingKeys.filter(
-        key => options[key] !== undefined,
-    );
-
-    for (const key of keys) {
-        if (e[key] !== options[key]) {
-            return false;
-        }
-    }
-    return true;
-};
-
-const isKeyMatched = (e: KeyboardEvent, options: Options) => {
-    if (e.code === options.code) {
-        return true;
-    }
-    if (e.key === options.key) {
-        return true;
-    }
-    if (options.code === undefined && options.key === undefined) {
-        return true;
-    }
-    return false;
-};
-
-/**
- * 判断元素是否为表单元素
- * @ref https://github.com/github/hotkey/blob/main/src/utils.ts#L1
- */
-const isFormField = (element: Node, options: Options) => {
-    if (options.includeFormField) {
-        return false;
-    }
-    if (!(element instanceof HTMLElement)) {
-        return false;
-    }
-
-    const name = element.nodeName.toLowerCase();
-    const type = (element.getAttribute('type') || '').toLowerCase();
-    return (
-        name === 'select'
-        || name === 'textarea'
-        || (name === 'input' && type !== 'submit' && type !== 'reset' && type !== 'checkbox' && type !== 'radio')
-        || element.isContentEditable
-    );
-};
-
 const isMatched = (e: KeyboardEvent, options: Options) => {
-    return (
-        !isFormField(e.target as HTMLElement, options)
-        && isKeyMatched(e, options)
-        && isComposingMatched(e, options)
-        && isRepeatMatched(e, options)
-    );
+    const { shortcuts, includeFormField, loose } = options;
+    if (!includeFormField && isFormField(e.target as HTMLElement)) {
+        return false;
+    }
+
+    if (Array.isArray(shortcuts)) {
+        return shortcuts.some(config => isEventMatched(e, config, { loose }));
+    }
+
+    // 这里 extends 了所以当做 config 传入
+    return isEventMatched(e, options, { loose });
 };
 
 type KeyboardCallback = (e: KeyboardEvent) => void;
@@ -181,9 +111,4 @@ const createKeyHook = () => {
     return useShortKey;
 };
 
-/**
- * 快捷键 hook
- * @see https://codesandbox.io/s/usehotkey-k83fb
- * @author zhangcong06
- */
 export const useShortKey = createKeyHook();
