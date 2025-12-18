@@ -1,4 +1,5 @@
 /node_modules
+/coverage
 /packages/*/node_modules
 /packages/*/es
 /packages/eslint-config/*.js
