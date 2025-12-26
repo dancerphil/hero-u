@@ -30,9 +30,20 @@ const Component = () => {
         },
     });
     
+    // or register on `⌘C` `⌃C` `⌘⌃C`
+    useShortKey({
+        modKey: true,
+        code: 'KeyC',
+        keydown: (e: KeyboardEvent) => {
+            // ...
+        },
+    });
+    
     // ...
 };
 ```
+
+
 
 ## Example
 

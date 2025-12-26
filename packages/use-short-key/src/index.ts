@@ -4,12 +4,6 @@ import { isFormField, isEventMatched } from './matchedUtils.js';
 
 interface Options extends ShortcutConfig {
     /**
-     * 默认 loose 为 false，此时为严格模式。严格模式下，将检查组合键（Meta, Ctrl, Alt, Shift）的匹配，不仅设定为需要按下的组合键需要被按下，且没有设定的键不能被按下。比如如果注册了 `Meta+C` 的快捷键，当用户按下 `Meta+Alt+C` 时将不会响应，因为此时 Alt 键被错误的按下，仅在确切的 Meta+C 被按下时，注册的快捷键才会响应。
-     * 如果手动设置为 true，那么将启用宽松模式。宽松模式下，组合键只会匹配为已定义的（如 metaKey: true 或 metaKey: false），未定义的组合键不做检查（如 metaKey: undefined 或者没有传入）。
-     * loose 不传的情况，默认为 false，即严格模式。
-     */
-    loose?: boolean;
-    /**
      * 在快捷键被按下的时刻，可能用户正在填写表单，此时将不触发快捷键。
      * 详细的不触发快捷键的场景包括 input, textarea 和 富文本编辑器，你可以通过源码来进一步了解判断的逻辑。
      * 在某些特定的情况下，你需要允许快捷键在表单内被触发，比如通过 Meta+S 来保存。此时你可以手动将 includeFormField 设为 true 来更改此默认行为。
@@ -23,17 +17,17 @@ interface Options extends ShortcutConfig {
 }
 
 const isMatched = (e: KeyboardEvent, options: Options) => {
-    const { shortcuts, includeFormField, loose } = options;
+    const { shortcuts, includeFormField } = options;
     if (!includeFormField && isFormField(e.target as HTMLElement)) {
         return false;
     }
 
     if (Array.isArray(shortcuts)) {
-        return shortcuts.some(config => isEventMatched(e, config, { loose }));
+        return shortcuts.some(config => isEventMatched(e, config));
     }
 
     // 这里 extends 了所以当做 config 传入
-    return isEventMatched(e, options, { loose });
+    return isEventMatched(e, options);
 };
 
 type KeyboardCallback = (e: KeyboardEvent) => void;

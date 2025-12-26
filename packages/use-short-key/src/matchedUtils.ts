@@ -1,5 +1,4 @@
-import { ShortcutConfig, ComposingKeys } from './types.js';
-const composingKeys: ComposingKeys = ['ctrlKey', 'shiftKey', 'altKey', 'metaKey'];
+import { ShortcutConfig } from './types.js';
 
 // trigger e.repeat === false by default, trigger all when options.repeat === true
 export const isRepeatMatched = (e: KeyboardEvent, config: ShortcutConfig) => {
@@ -9,35 +8,23 @@ export const isRepeatMatched = (e: KeyboardEvent, config: ShortcutConfig) => {
     return !e.repeat;
 };
 
-interface IsComposingMatchedOptions {
-    loose?: boolean;
-}
+export const isComposingMatched = (e: KeyboardEvent, config: ShortcutConfig) => {
+    // omit shift if key used, like key: `?`
+    const shiftMatched = config.key
+        ? true
+        : Boolean(e.shiftKey) === Boolean(config.shiftKey);
 
-export const isComposingMatched = (e: KeyboardEvent, config: ShortcutConfig, { loose }: IsComposingMatchedOptions) => {
-    if (!loose) {
-        // omit shift if key used, like key: `?`
-        const shiftMatched = config.key
-            ? true
-            : Boolean(e.shiftKey) === Boolean(config.shiftKey);
-        // check both truthy and falsy
-        return (
-            Boolean(e.ctrlKey) === Boolean(config.ctrlKey)
-            && shiftMatched
-            && Boolean(e.altKey) === Boolean(config.altKey)
-            && Boolean(e.metaKey) === Boolean(config.metaKey)
-        );
-    }
-    // loose: only check when options.key is defined
-    const keys = composingKeys.filter(
-        key => config[key] !== undefined,
+    // check both truthy and falsy
+    const ctrlAndMetaMatched = Boolean(e.ctrlKey) === Boolean(config.ctrlKey) && Boolean(e.metaKey) === Boolean(config.metaKey);
+    const modMatched = config.modKey
+        ? (Boolean(e.ctrlKey) || Boolean(e.metaKey))
+        : ctrlAndMetaMatched;
+
+    return (
+        modMatched
+        && shiftMatched
+        && Boolean(e.altKey) === Boolean(config.altKey)
     );
-
-    for (const key of keys) {
-        if (e[key] !== config[key]) {
-            return false;
-        }
-    }
-    return true;
 };
 
 export const isKeyMatched = (e: KeyboardEvent, config: ShortcutConfig) => {
@@ -53,10 +40,10 @@ export const isKeyMatched = (e: KeyboardEvent, config: ShortcutConfig) => {
     return false;
 };
 
-export const isEventMatched = (e: KeyboardEvent, config: ShortcutConfig, options: IsComposingMatchedOptions) => {
+export const isEventMatched = (e: KeyboardEvent, config: ShortcutConfig) => {
     return (
         isKeyMatched(e, config)
-        && isComposingMatched(e, config, options)
+        && isComposingMatched(e, config)
         && isRepeatMatched(e, config)
     );
 };

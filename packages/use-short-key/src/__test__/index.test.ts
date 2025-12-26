@@ -59,6 +59,47 @@ describe('useHotKey', () => {
         expect(value).toBe(2);
     });
 
+    test('modKey', () => {
+        let value = 0;
+        renderHook(() => useShortKey({
+            modKey: true,
+            code: 'KeyC',
+            keydown: () => {
+                value++;
+            },
+        }));
+        expect(value).toBe(0);
+        fireEvent.keyDown(document.body, { metaKey: true, code: 'KeyC' });
+        expect(value).toBe(1);
+        fireEvent.keyDown(document.body, { ctrlKey: true, code: 'KeyC' });
+        expect(value).toBe(2);
+        fireEvent.keyDown(document.body, { metaKey: true, ctrlKey: true, code: 'KeyC' });
+        expect(value).toBe(3);
+        fireEvent.keyDown(document.body, { metaKey: true, ctrlKey: true, shiftKey: true, code: 'KeyC' });
+        expect(value).toBe(3);
+    });
+
+    test('modKey with shift', () => {
+        let value = 0;
+        renderHook(() => useShortKey({
+            modKey: true,
+            shiftKey: true,
+            code: 'KeyC',
+            keydown: () => {
+                value++;
+            },
+        }));
+        expect(value).toBe(0);
+        fireEvent.keyDown(document.body, { metaKey: true, code: 'KeyC' });
+        expect(value).toBe(0);
+        fireEvent.keyDown(document.body, { ctrlKey: true, code: 'KeyC' });
+        expect(value).toBe(0);
+        fireEvent.keyDown(document.body, { metaKey: true, ctrlKey: true, code: 'KeyC' });
+        expect(value).toBe(0);
+        fireEvent.keyDown(document.body, { metaKey: true, ctrlKey: true, shiftKey: true, code: 'KeyC' });
+        expect(value).toBe(1);
+    });
+
     test('press ⌥⌘C', () => {
         let value = 0;
         renderHook(() => useShortKey({
@@ -142,7 +183,7 @@ describe('useHotKey', () => {
         expect(vPressedTimes).toBe(1);
     });
 
-    test('[strict ⌥⌘C]: ⌘C ✕ ⌥⌘C ✓ ⇧⌥⌘C ✕', () => {
+    test('⌘C ✕ ⌥⌘C ✓ ⇧⌥⌘C ✕', () => {
         let value = 0;
         renderHook(() => useShortKey({
             metaKey: true,
@@ -171,100 +212,5 @@ describe('useHotKey', () => {
             code: 'KeyC',
         });
         expect(value).toBe(1);
-    });
-
-    test('[loose ⌘C]: ⌘C ✓ ⌥⌘C ✓ ⇧⌥⌘C ✓', () => {
-        let value = 0;
-        renderHook(() => useShortKey({
-            loose: true,
-            metaKey: true,
-            code: 'KeyC',
-            keydown: () => {
-                value++;
-            },
-        }));
-        expect(value).toBe(0);
-        fireEvent.keyDown(document.body, {
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(1);
-        fireEvent.keyDown(document.body, {
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(2);
-        fireEvent.keyDown(document.body, {
-            shiftKey: true,
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(3);
-    });
-
-    test('[loose ⌥⌘C]: ⌘C ✕ ⌥⌘C ✓ ⇧⌥⌘C ✓', () => {
-        let value = 0;
-        renderHook(() => useShortKey({
-            loose: true,
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-            keydown: () => {
-                value++;
-            },
-        }));
-        expect(value).toBe(0);
-        fireEvent.keyDown(document.body, {
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(0);
-        fireEvent.keyDown(document.body, {
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(1);
-        fireEvent.keyDown(document.body, {
-            shiftKey: true,
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(2);
-    });
-
-    test('[loose ⌘C (⇧ not allowed)]: ⌘C ✓ ⌥⌘C ✓ ⇧⌥⌘C ✕', () => {
-        let value = 0;
-        renderHook(() => useShortKey({
-            loose: true,
-            metaKey: true,
-            shiftKey: false,
-            code: 'KeyC',
-            keydown: () => {
-                value++;
-            },
-        }));
-        expect(value).toBe(0);
-        fireEvent.keyDown(document.body, {
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(1);
-        fireEvent.keyDown(document.body, {
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(2);
-        fireEvent.keyDown(document.body, {
-            shiftKey: true,
-            altKey: true,
-            metaKey: true,
-            code: 'KeyC',
-        });
-        expect(value).toBe(2);
     });
 });
