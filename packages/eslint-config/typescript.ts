@@ -2,6 +2,7 @@ import path from 'node:path';
 import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
 import typescriptEslint from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
 import stylistic from '@stylistic/eslint-plugin';
 
 const gitignorePath = path.resolve('.', '.gitignore');
@@ -24,8 +25,18 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
+            parser: typescriptEslint.parser,
             parserOptions: {
-                parser: typescriptEslint.parser,
+                project: './tsconfig.json',
+            },
+        },
+        plugins: {
+            import: importPlugin,
+        },
+        settings: {
+            'import/resolver': {
+                typescript: true,
+                node: true,
             },
         },
     },
@@ -50,6 +61,16 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
+            'import/order': ['error', {
+                groups: [
+                    'builtin', // Node.js 内置模块: fs, path
+                    'external', // npm 包: react, lodash
+                    'internal', // 项目内部别名: @/utils
+                    'parent', // 父级目录: ../
+                    'sibling', // 同级目录: ./
+                    'index', // 当前目录 index: ./
+                ],
+            }],
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
@@ -80,6 +101,8 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             '@typescript-eslint/restrict-plus-operands': 'off',
             // 在我们的场景中 class 和 interface 的顺序并不重要
             '@typescript-eslint/member-ordering': 'off',
+            // 允许使用 void 类型
+            '@typescript-eslint/no-invalid-void-type': 'off',
             // 允许使用 any 类型
             '@typescript-eslint/no-explicit-any': 'off',
             // 允许一些 expressions 来注入一些副作用
