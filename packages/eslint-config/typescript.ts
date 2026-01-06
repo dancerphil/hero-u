@@ -18,10 +18,17 @@ const stylisticConfigs = stylistic.configs.customize({
 export const typescriptConfig: import('eslint').Linter.Config[] = [
     includeIgnoreFile(gitignorePath),
     {
-        name: 'js/config',
-        ...eslint.configs.recommended,
+        files: ['*.js', '*.mjs'],
+        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+        },
+        plugins: {
+            import: importPlugin,
+        },
     },
     {
+        files: ['**/*.ts', '**/*.tsx'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
@@ -39,6 +46,10 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
                 node: true,
             },
         },
+    },
+    {
+        name: 'js/config',
+        ...eslint.configs.recommended,
     },
     ...typescriptEslint.configs.strict,
     ...typescriptEslint.configs.stylistic,
