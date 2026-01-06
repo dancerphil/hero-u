@@ -18,33 +18,14 @@ const stylisticConfigs = stylistic.configs.customize({
 export const typescriptConfig: import('eslint').Linter.Config[] = [
     includeIgnoreFile(gitignorePath),
     {
-        files: ['*.js', '*.mjs'],
+        // files: ['*.js', '*.mjs'],
+        // files: ['**/*.ts', '**/*.tsx'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
         },
         plugins: {
             import: importPlugin,
-        },
-    },
-    {
-        files: ['**/*.ts', '**/*.tsx'],
-        languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-            parser: typescriptEslint.parser,
-            parserOptions: {
-                project: './tsconfig.json',
-            },
-        },
-        plugins: {
-            import: importPlugin,
-        },
-        settings: {
-            'import/resolver': {
-                typescript: true,
-                node: true,
-            },
         },
     },
     {

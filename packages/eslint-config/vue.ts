@@ -1,6 +1,6 @@
 import pluginVue from 'eslint-plugin-vue';
-import { typescriptConfig } from './typescript.js';
 import globals from 'globals';
+import { typescriptConfig } from './typescript.js';
 
 export const vueExtraConfig: import('eslint').Linter.Config[] = [
     ...pluginVue.configs['flat/recommended'],
