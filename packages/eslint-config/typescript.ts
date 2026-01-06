@@ -37,6 +37,9 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
     stylisticConfigs,
     // 开启
     {
+        settings: {
+            'import/internal-regex': '^@/',
+        },
         rules: {
             'max-lines': [
                 'error',
@@ -62,6 +65,19 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
                     'sibling', // 同级目录: ./
                     'index', // 当前目录 index: ./
                 ],
+                pathGroups: [
+                    {
+                        pattern: 'react',
+                        group: 'external',
+                        position: 'before',
+                    },
+                    {
+                        pattern: 'vue',
+                        group: 'external',
+                        position: 'before',
+                    },
+                ],
+                pathGroupsExcludedImportTypes: ['react', 'vue'],
             }],
             '@typescript-eslint/no-unused-vars': [
                 'error',

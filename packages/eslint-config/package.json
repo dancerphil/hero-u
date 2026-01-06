@@ -1,6 +1,6 @@
 {
   "name": "@hero-u/eslint-config",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A simple ESLint config",
   "keywords": [
     "hero-u",
