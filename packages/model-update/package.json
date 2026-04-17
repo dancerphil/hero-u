@@ -1,0 +1,36 @@
+{
+  "name": "@hero-u/model-update",
+  "version": "0.0.1",
+  "description": "hero-u openrouter model list updater",
+  "keywords": [
+    "hero-u",
+    "openrouter",
+    "model",
+    "llm"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "bin": {
+    "model-update": "es/cli.js"
+  },
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@hero-u/model": "workspace:*"
+  }
+}
