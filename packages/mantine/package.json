@@ -1,6 +1,6 @@
 {
   "name": "@hero-u/mantine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "hero-u Mantine components",
   "keywords": [
     "hero-u",
@@ -21,7 +21,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rm -rf es/ && tsc",
+    "build": "rm -rf es/ && tsc && cp src/*.module.css es/",
     "lint-type": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   },
