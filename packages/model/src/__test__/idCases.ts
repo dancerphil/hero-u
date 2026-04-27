@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const idCases = [
     'anthropic/claude-opus-4.7',
     'openrouter/elephant-alpha',

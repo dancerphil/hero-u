@@ -204,5 +204,5 @@ describe('parseModelId matchSnapshot', () => {
     test('matchSnapshot', () => {
         const result = idCases.map(f);
         expect(result).toMatchSnapshot();
-    })
-})
+    });
+});

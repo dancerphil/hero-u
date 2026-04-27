@@ -1,0 +1,42 @@
+{
+  "name": "@hero-u/mantine",
+  "version": "0.0.1",
+  "description": "hero-u Mantine components",
+  "keywords": [
+    "hero-u",
+    "Mantine"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "@mantine/core": ">=8.0.0",
+    "@tabler/icons-react": ">=3.0.0",
+    "lodash-es": ">=4.0.0",
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "@mantine/core": "^8.3.10",
+    "@tabler/icons-react": "^3.31.0",
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "^19.2.7",
+    "lodash-es": "^4.17.21",
+    "react": "^19.2.3"
+  }
+}

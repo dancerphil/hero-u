@@ -1,6 +1,6 @@
 import { fetchOpenRouterModels } from './fetch.js';
-import path from "node:path";
-import { mkdir, writeFile } from "node:fs/promises";
+import path from 'node:path';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { parseModelId, type OpenRouterModel } from '@hero-u/model';
 import { pickIds } from './pickIds.js';
 export { parseModelId, isVersion, isParameter, isPreview, isSnapshot } from '@hero-u/model';
@@ -31,19 +31,19 @@ export const models: OpenRouterModel[] = ${JSON.stringify(models, null, 4)};
 
 export const updateModelList = async (options: Options) => {
     const models = await fetchOpenRouterModels();
-    const map: Record<string, OpenRouterModel> = {}
+    const map: Record<string, OpenRouterModel> = {};
     models.forEach((model) => {
         map[model.id] = model;
-    })
+    });
     const modelIds = Object.keys(map);
-    const pickedIds: string[] = []
-    options.providers.forEach(provider => {
+    const pickedIds: string[] = [];
+    options.providers.forEach((provider) => {
         const idsAll = modelIds.filter(id => id.startsWith(`${provider}/`));
-        const ids = pickIds(idsAll)
+        const ids = pickIds(idsAll);
         const allowedIds = ids.filter(id => !ban.includes(parseModelId(id).name));
-        pickedIds.push(...allowedIds)
-    })
-    const pickedModels = pickedIds.map(id => map[id])
+        pickedIds.push(...allowedIds);
+    });
+    const pickedModels = pickedIds.map(id => map[id]);
     const filePath = options.filePath ?? defaultOutputFile;
     const output = createOutputContent(pickedIds, pickedModels);
 

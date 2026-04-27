@@ -2,7 +2,7 @@ import path from 'node:path';
 import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
 import typescriptEslint from 'typescript-eslint';
-import importPlugin from 'eslint-plugin-import';
+// import importPlugin from 'eslint-plugin-import';
 import stylistic from '@stylistic/eslint-plugin';
 
 const gitignorePath = path.resolve('.', '.gitignore');
@@ -17,17 +17,18 @@ const stylisticConfigs = stylistic.configs.customize({
 
 export const typescriptConfig: import('eslint').Linter.Config[] = [
     includeIgnoreFile(gitignorePath),
-    {
-        // files: ['*.js', '*.mjs'],
-        // files: ['**/*.ts', '**/*.tsx'],
-        languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-        },
-        plugins: {
-            import: importPlugin,
-        },
-    },
+    /** @see https://github.com/import-js/eslint-plugin-import/issues/3227 */
+    // {
+    //     // files: ['*.js', '*.mjs'],
+    //     // files: ['**/*.ts', '**/*.tsx'],
+    //     languageOptions: {
+    //         ecmaVersion: 'latest',
+    //         sourceType: 'module',
+    //     },
+    //     plugins: {
+    //         import: importPlugin,
+    //     },
+    // },
     {
         name: 'js/config',
         ...eslint.configs.recommended,
@@ -56,29 +57,29 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
-            'import/order': ['error', {
-                groups: [
-                    'builtin', // Node.js 内置模块: fs, path
-                    'external', // npm 包: react, lodash
-                    'internal', // 项目内部别名: @/utils
-                    'parent', // 父级目录: ../
-                    'sibling', // 同级目录: ./
-                    'index', // 当前目录 index: ./
-                ],
-                pathGroups: [
-                    {
-                        pattern: 'react',
-                        group: 'external',
-                        position: 'before',
-                    },
-                    {
-                        pattern: 'vue',
-                        group: 'external',
-                        position: 'before',
-                    },
-                ],
-                pathGroupsExcludedImportTypes: ['react', 'vue'],
-            }],
+            // 'import/order': ['error', {
+            //     groups: [
+            //         'builtin', // Node.js 内置模块: fs, path
+            //         'external', // npm 包: react, lodash
+            //         'internal', // 项目内部别名: @/utils
+            //         'parent', // 父级目录: ../
+            //         'sibling', // 同级目录: ./
+            //         'index', // 当前目录 index: ./
+            //     ],
+            //     pathGroups: [
+            //         {
+            //             pattern: 'react',
+            //             group: 'external',
+            //             position: 'before',
+            //         },
+            //         {
+            //             pattern: 'vue',
+            //             group: 'external',
+            //             position: 'before',
+            //         },
+            //     ],
+            //     pathGroupsExcludedImportTypes: ['react', 'vue'],
+            // }],
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
