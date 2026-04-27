@@ -3,7 +3,7 @@ import { Combobox, Group, InputBase, ScrollArea, Text, Tooltip, useCombobox } fr
 import { groupBy } from 'lodash-es';
 import { IconHelp } from '@tabler/icons-react';
 
-export interface ModelOption {
+export interface ModelSelectOption {
     id: string;
     provider?: string;
     name?: string;
@@ -11,17 +11,17 @@ export interface ModelOption {
     multiplier?: number;
 }
 
-interface Props {
+export interface ModelSelectProps {
     value?: string;
     onChange?: (model: string) => void;
-    options: ModelOption[];
+    options: ModelSelectOption[];
     disabled?: boolean;
     placeholder?: ReactNode;
 }
 
 const capitalize = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const ModelSelect = ({ value, onChange, options, disabled = false, placeholder }: Props) => {
+export const ModelSelect = ({ value, onChange, options, disabled = false, placeholder }: ModelSelectProps) => {
     const combobox = useCombobox();
 
     const modelGroups = useMemo(

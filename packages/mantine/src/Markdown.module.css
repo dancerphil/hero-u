@@ -1,0 +1,10 @@
+.root {
+    & :where(ul, ol):not([data-type='taskList']) {
+        list-style: none;
+        padding-inline-start: 0;
+    }
+
+    & :where(li) {
+        padding-block: calc(var(--mantine-spacing-xs) / 2);
+    }
+}

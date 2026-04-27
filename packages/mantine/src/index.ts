@@ -1,2 +1,3 @@
 export { ModelSelect } from './ModelSelect.js';
-export type { ModelOption } from './ModelSelect.js';
+export type { ModelSelectProps, ModelSelectOption } from './ModelSelect.js';
+export { Markdown } from './Markdown.js';

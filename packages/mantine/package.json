@@ -1,6 +1,6 @@
 {
   "name": "@hero-u/mantine",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "hero-u Mantine components",
   "keywords": [
     "hero-u",
@@ -29,7 +29,9 @@
     "@mantine/core": ">=8.0.0",
     "@tabler/icons-react": ">=3.0.0",
     "lodash-es": ">=4.0.0",
-    "react": ">=19"
+    "react": ">=19",
+    "react-markdown": ">=9.0.0",
+    "remark-gfm": ">=4.0.0"
   },
   "devDependencies": {
     "@mantine/core": "^8.3.10",
@@ -37,6 +39,8 @@
     "@types/lodash-es": "^4.17.12",
     "@types/react": "^19.2.7",
     "lodash-es": "^4.17.21",
-    "react": "^19.2.3"
+    "react": "^19.2.3",
+    "react-markdown": "^9.0.0",
+    "remark-gfm": "^4.0.0"
   }
 }
