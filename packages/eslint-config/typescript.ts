@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
+import importX from 'eslint-plugin-import-x';
 import typescriptEslint from 'typescript-eslint';
-// import importPlugin from 'eslint-plugin-import';
 import stylistic from '@stylistic/eslint-plugin';
 
 const gitignorePath = path.resolve('.', '.gitignore');
@@ -17,18 +17,6 @@ const stylisticConfigs = stylistic.configs.customize({
 
 export const typescriptConfig: import('eslint').Linter.Config[] = [
     includeIgnoreFile(gitignorePath),
-    /** @see https://github.com/import-js/eslint-plugin-import/issues/3227 */
-    // {
-    //     // files: ['*.js', '*.mjs'],
-    //     // files: ['**/*.ts', '**/*.tsx'],
-    //     languageOptions: {
-    //         ecmaVersion: 'latest',
-    //         sourceType: 'module',
-    //     },
-    //     plugins: {
-    //         import: importPlugin,
-    //     },
-    // },
     {
         name: 'js/config',
         ...eslint.configs.recommended,
@@ -36,10 +24,15 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
     ...typescriptEslint.configs.strict,
     ...typescriptEslint.configs.stylistic,
     stylisticConfigs,
+    {
+        plugins: {
+            'import-x': importX,
+        },
+    },
     // 开启
     {
         settings: {
-            'import/internal-regex': '^@/',
+            'import-x/internal-regex': '^@/',
         },
         rules: {
             'max-lines': [
@@ -57,29 +50,29 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
-            // 'import/order': ['error', {
-            //     groups: [
-            //         'builtin', // Node.js 内置模块: fs, path
-            //         'external', // npm 包: react, lodash
-            //         'internal', // 项目内部别名: @/utils
-            //         'parent', // 父级目录: ../
-            //         'sibling', // 同级目录: ./
-            //         'index', // 当前目录 index: ./
-            //     ],
-            //     pathGroups: [
-            //         {
-            //             pattern: 'react',
-            //             group: 'external',
-            //             position: 'before',
-            //         },
-            //         {
-            //             pattern: 'vue',
-            //             group: 'external',
-            //             position: 'before',
-            //         },
-            //     ],
-            //     pathGroupsExcludedImportTypes: ['react', 'vue'],
-            // }],
+            'import-x/order': ['error', {
+                groups: [
+                    'builtin',
+                    'external',
+                    'internal',
+                    'parent',
+                    'sibling',
+                    'index',
+                ],
+                pathGroups: [
+                    {
+                        pattern: 'react',
+                        group: 'external',
+                        position: 'before',
+                    },
+                    {
+                        pattern: 'vue',
+                        group: 'external',
+                        position: 'before',
+                    },
+                ],
+                pathGroupsExcludedImportTypes: ['react', 'vue'],
+            }],
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
@@ -116,12 +109,16 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             '@typescript-eslint/no-explicit-any': 'off',
             // 允许一些 expressions 来注入一些副作用
             '@typescript-eslint/no-unused-expressions': 'off',
+            // 很多时候空函数的作用不需要解释
+            '@typescript-eslint/no-empty-function': 'off',
             // 有的时候我们希望在一行内写下比较紧凑的 jsx
             '@stylistic/jsx-one-expression-per-line': 'off',
             // 有的时候我们希望显式的指明 jsx 中的的字符串，比如在一系列字符串中保持一致
             '@stylistic/jsx-curly-brace-presence': 'off',
             // 三目运算符导致缩进混乱
             '@stylistic/multiline-ternary': 'off',
+            // 运算符偶尔需要因为可读性而单独换行
+            '@stylistic/operator-linebreak': 'off',
         },
     },
 ];

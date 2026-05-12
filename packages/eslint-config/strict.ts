@@ -1,7 +1,7 @@
 export const strictConfig: import('eslint').Linter.Config[] = [
     {
         rules: {
-            'import/no-default-export': 'error',
+            'import-x/no-default-export': 'error',
             'no-restricted-syntax': [
                 'error',
                 {
@@ -19,7 +19,7 @@ export const strictConfig: import('eslint').Linter.Config[] = [
     {
         files: ['*.config.js', '*.config.ts'],
         rules: {
-            'import/no-default-export': 'off',
+            'import-x/no-default-export': 'off',
         },
     },
 ];
