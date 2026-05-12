@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
         "outDir": "./es",
+        "rootDir": "./src",
         "target": "esnext",
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "lib": ["esnext", "dom"],
+        "types": ["node"],
         "strict": true,
         "declaration": true,
         "skipLibCheck": true,

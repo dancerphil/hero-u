@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { describe, test, expect } from 'vitest';
-import { idCases } from './idCases.js';
 import { parseModelId } from '../parseModelId.js';
+import { idCases } from './idCases.js';
 
 const f = (id: string) => Object.fromEntries(
     Object.entries(parseModelId(id)).filter(([, value]) => value !== ''),

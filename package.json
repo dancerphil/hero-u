@@ -14,12 +14,13 @@
   },
   "devDependencies": {
     "@hero-u/eslint-config": "workspace:*",
-    "@types/node": "^24.10.1",
-    "@vitest/coverage-v8": "3.2.4",
-    "eslint": "^10.0.0",
+    "@types/node": "^25.7.0",
+    "@vitest/coverage-v8": "4.1.6",
+    "eslint": "^10.3.0",
     "husky": "^9.1.7",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "react-dom": "^19.2.6",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
   },
   "packageManager": "pnpm@9.12.2"
 }
