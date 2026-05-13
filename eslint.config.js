@@ -1,3 +1,3 @@
-import { typescriptConfig } from '@hero-u/eslint-config';
+import { reactConfig } from '@hero-u/eslint-config/react.js';
 
-export default typescriptConfig;
+export default reactConfig;

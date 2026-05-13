@@ -50,6 +50,9 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
+            'eqeqeq': 'error',
+            'curly': ['error', 'all'],
+            '@stylistic/curly-newline': ['error', { minElements: 1 }],
             'import-x/order': ['error', {
                 groups: [
                     'builtin',

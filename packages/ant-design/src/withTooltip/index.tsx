@@ -1,4 +1,4 @@
-import { ComponentType, forwardRef, ReactNode } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { Tooltip } from 'antd';
 
 function cn(...classes: unknown[]) {
@@ -22,8 +22,8 @@ export function withTooltip<T extends object>(ComponentIn: ComponentType<T>, def
         ...defaultRest
     } = (defaultProps as any) ?? {};
 
-    const ComponentInner = (props: any, ref: any) => {
-        const { className, tooltip = defaultTooltip, disabledReason = defaultDisabledReason, ...rest } = props;
+    const ComponentOut = (props: any) => {
+        const { ref, className, tooltip = defaultTooltip, disabledReason = defaultDisabledReason, ...rest } = props;
         const nextClassName = cn(defaultClassName, className);
         const nextProps = { className: nextClassName, ...defaultRest, ...rest };
 
@@ -47,6 +47,5 @@ export function withTooltip<T extends object>(ComponentIn: ComponentType<T>, def
         return element;
     };
 
-    const ComponentOut = forwardRef(ComponentInner);
     return ComponentOut as any as ComponentType<T & ExtraProps>;
 }

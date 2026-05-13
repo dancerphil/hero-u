@@ -1,0 +1,50 @@
+{
+  "name": "@hero-u/rules",
+  "version": "1.0.0",
+  "description": "Manage and sync AI tool instructions across tools and projects",
+  "keywords": [
+    "hero-u",
+    "ai",
+    "rules",
+    "claude",
+    "copilot",
+    "cursor"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "rules": "es/cli.js"
+  },
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc && vite build",
+    "dev": "concurrently \"tsx watch src/cli.ts -- --no-open\" \"vite --open\"",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.2",
+    "hono": "^4.7.11",
+    "open": "^11.0.0"
+  },
+  "devDependencies": {
+    "@mantine/core": "^9.2.0",
+    "@mantine/hooks": "^9.2.0",
+    "@tabler/icons-react": "^3.44.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "tsx": "^4.19.4",
+    "vite": "^8.0.12"
+  }
+}

@@ -48,7 +48,7 @@ export const ModelSelect = ({ value, onChange, options, disabled = false, placeh
                     <Group justify="space-between" wrap="nowrap" w="100%">
                         <Text component="span" size="sm">{model.name ?? model.id}</Text>
                         <Group gap={4} wrap="nowrap" style={{ flexShrink: 0 }} c="dimmed">
-                            {model.multiplier != null && (
+                            {Boolean(model.multiplier) && (
                                 <Text component="span" size="sm">{`${model.multiplier}x`}</Text>
                             )}
                             {model.description && (
