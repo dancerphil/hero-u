@@ -2,7 +2,7 @@
 
 English | [中文](https://github.com/dancerphil/hero-u/blob/main/packages/rules/README-zh_CN.md)
 
-<video src="https://raw.githubusercontent.com/dancerphil/assets/showcase@hero-u:rules.mov" controls width="100%"></video>
+https://github.com/user-attachments/assets/707c4735-737b-461b-98c5-1031d525f3c8
 
 ### Usage
 
