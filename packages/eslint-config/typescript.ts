@@ -36,7 +36,7 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
         },
         rules: {
             'max-lines': [
-                'error',
+                'warn',
                 {
                     max: 140,
                     skipBlankLines: true,
@@ -50,9 +50,20 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
-            'eqeqeq': 'error',
-            'curly': ['error', 'all'],
-            '@stylistic/curly-newline': ['error', { minElements: 1 }],
+            'eqeqeq': ['error', 'smart'],
+            'no-restricted-syntax': [
+                'error',
+                {
+                    selector: 'ClassDeclaration',
+                },
+                {
+                    selector: 'MemberExpression[object.name="React"]',
+                },
+                {
+                    selector: 'TSQualifiedName[left.name="React"]',
+                },
+            ],
+            'import-x/no-default-export': 'error',
             'import-x/order': ['error', {
                 groups: [
                     'builtin',
@@ -122,6 +133,12 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             '@stylistic/multiline-ternary': 'off',
             // 运算符偶尔需要因为可读性而单独换行
             '@stylistic/operator-linebreak': 'off',
+        },
+    },
+    {
+        files: ['*.config.js', '*.config.ts'],
+        rules: {
+            'import-x/no-default-export': 'off',
         },
     },
 ];

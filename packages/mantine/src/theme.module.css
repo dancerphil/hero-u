@@ -1,0 +1,7 @@
+.input-label {
+    white-space: nowrap;
+}
+
+.input[data-variant='active'] {
+    --input-bd: var(--mantine-primary-color-filled);
+}
