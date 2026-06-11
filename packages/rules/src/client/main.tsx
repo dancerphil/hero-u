@@ -4,7 +4,7 @@ import { MantineProvider, v8CssVariablesResolver } from '@mantine/core';
 import '@mantine/core/styles.css';
 import './index.css';
 import { I18nProvider } from './i18n';
-import App from './App';
+import { App } from './App';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>

@@ -1,0 +1,43 @@
+{
+  "name": "@hero-u/form-antd",
+  "version": "1.0.0",
+  "description": "hero-u path based form bindings for Ant Design",
+  "keywords": [
+    "hero-u",
+    "form",
+    "react",
+    "Ant Design"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": ">=5.0.0",
+    "@hero-u/form-core": ">=1.0.0",
+    "antd": ">=5.16.0",
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "@hero-u/form-core": "workspace:*",
+    "@types/react": "^19.2.14",
+    "antd": "^6.3.7",
+    "react": "^19.2.6"
+  }
+}

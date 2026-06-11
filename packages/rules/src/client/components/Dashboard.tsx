@@ -227,5 +227,3 @@ export const Dashboard = ({ scanTrigger, syncTrigger, onActionStateChange }: Wor
         </Box>
     );
 };
-
-export default Dashboard;

@@ -5,7 +5,7 @@ import { Hono } from 'hono';
 import { detectTools, expandPath } from '../tools.js';
 
 const execAsync = promisify(exec);
-const router = new Hono();
+export const router = new Hono();
 
 router.get('/', async (c) => {
     const tools = await detectTools();
@@ -31,5 +31,3 @@ router.post('/global-file/open', async (c) => {
     await execAsync(`open "${expanded}"`);
     return c.json({ success: true });
 });
-
-export default router;

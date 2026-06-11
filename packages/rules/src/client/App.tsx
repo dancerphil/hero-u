@@ -4,7 +4,7 @@ import { IconWorld } from '@tabler/icons-react';
 import { useLang, useT } from './i18n';
 import { Dashboard } from './components/Dashboard';
 
-export default function App() {
+export function App() {
     const { lang, setLang } = useLang();
     const t = useT();
     const [scanTrigger, setScanTrigger] = useState(0);

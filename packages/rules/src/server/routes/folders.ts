@@ -4,7 +4,7 @@ import { Hono } from 'hono';
 import { readStore, writeStore } from '../store.js';
 import { expandPath, TOOL_DEFINITIONS } from '../tools.js';
 
-const router = new Hono();
+export const router = new Hono();
 
 export interface ProjectRuleFile {
     fileName: string;
@@ -120,5 +120,3 @@ router.delete('/file', async (c) => {
         return c.json({ error: 'File not found' }, 404);
     }
 });
-
-export default router;

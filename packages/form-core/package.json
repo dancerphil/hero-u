@@ -1,0 +1,39 @@
+{
+  "name": "@hero-u/form-core",
+  "version": "1.0.0",
+  "description": "hero-u path based form core",
+  "keywords": [
+    "hero-u",
+    "form",
+    "react"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "lodash-es": ">=4.0.0",
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "^19.2.14",
+    "lodash-es": "^4.17.21",
+    "react": "^19.2.6"
+  }
+}

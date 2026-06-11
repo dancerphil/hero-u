@@ -1,0 +1,44 @@
+{
+  "name": "@hero-u/form-mantine",
+  "version": "1.0.0",
+  "description": "hero-u path based form bindings for Mantine",
+  "keywords": [
+    "hero-u",
+    "form",
+    "react",
+    "Mantine"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "@hero-u/form-core": ">=1.0.0",
+    "@mantine/core": ">=9.0.0",
+    "@tabler/icons-react": ">=3.0.0",
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "@hero-u/form-core": "workspace:*",
+    "@mantine/core": "^9.2.0",
+    "@mantine/hooks": "^9.2.0",
+    "@tabler/icons-react": "^3.44.0",
+    "@types/react": "^19.2.14",
+    "react": "^19.2.6"
+  }
+}

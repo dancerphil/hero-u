@@ -5,7 +5,7 @@ import {
     sanitizeName, type RuleVersion,
 } from '../store.js';
 
-const router = new Hono();
+export const router = new Hono();
 
 router.get('/', async (c) => {
     const versions = await listVersions();
@@ -90,5 +90,3 @@ router.delete('/:id', async (c) => {
     }
     return c.json({ success: true });
 });
-
-export default router;

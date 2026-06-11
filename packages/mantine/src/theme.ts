@@ -32,5 +32,10 @@ export const themeOverride: MantineThemeOverride = {
                 renderOption,
             },
         },
+        Modal: {
+            defaultProps: {
+                centered: true,
+            },
+        },
     },
 };

@@ -12,7 +12,7 @@ export interface ConflictItem {
     projectPath: string | null;
 }
 
-const router = new Hono();
+export const router = new Hono();
 
 export interface SyncResult {
     target: string;
@@ -131,5 +131,3 @@ router.post('/', async (c) => {
 
     return c.json({ results });
 });
-
-export default router;

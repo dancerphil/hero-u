@@ -136,7 +136,7 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
         },
     },
     {
-        files: ['*.config.js', '*.config.ts'],
+        files: ['**/*.config.js', '**/*.config.ts', '**/*.d.ts'],
         rules: {
             'import-x/no-default-export': 'off',
         },

@@ -3,7 +3,7 @@ import { Hono } from 'hono';
 import { readStore, writeStore, type AppConfig } from '../store.js';
 import { HERO_U_DIR } from '../store.js';
 
-const router = new Hono();
+export const router = new Hono();
 
 router.get('/', async (c) => {
     const store = await readStore();
@@ -33,5 +33,3 @@ router.post('/open', (c) => {
     exec(command);
     return c.json({ success: true, path: HERO_U_DIR });
 });
-
-export default router;

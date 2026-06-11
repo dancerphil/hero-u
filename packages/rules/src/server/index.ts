@@ -3,11 +3,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
-import toolsRouter from './routes/tools.js';
-import versionsRouter from './routes/versions.js';
-import foldersRouter from './routes/folders.js';
-import syncRouter from './routes/sync.js';
-import configRouter from './routes/config.js';
+import { router as toolsRouter } from './routes/tools.js';
+import { router as versionsRouter } from './routes/versions.js';
+import { router as foldersRouter } from './routes/folders.js';
+import { router as syncRouter } from './routes/sync.js';
+import { router as configRouter } from './routes/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
