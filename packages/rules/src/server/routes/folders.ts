@@ -2,7 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Hono } from 'hono';
 import { readStore, writeStore } from '../store.js';
-import { expandPath, TOOL_DEFINITIONS } from '../tools.js';
+import { expandPath } from '../tools.js';
+import { TOOL_DEFINITIONS } from '../../config/tools.js';
 
 export const router = new Hono();
 
@@ -28,9 +29,9 @@ async function scanFolder(folderPath: string): Promise<Project[]> {
         return [];
     }
 
-    const allProjectFileNames = Array.from(new Set(
+    const allProjectFileNames = [...new Set(
         TOOL_DEFINITIONS.flatMap(tool => tool.projectFileNames),
-    ));
+    )];
 
     const projects = await Promise.all(
         entries.map(async (entry): Promise<Project | null> => {
@@ -50,7 +51,7 @@ async function scanFolder(folderPath: string): Promise<Project[]> {
                 allProjectFileNames.map(async (fileName): Promise<ProjectRuleFile> => {
                     const filePath = path.join(projectPath, fileName);
                     try {
-                        const content = await fs.readFile(filePath, 'utf-8');
+                        const content = await fs.readFile(filePath, 'utf8');
                         return { fileName, exists: true, content };
                     }
                     catch {

@@ -2,15 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Alert, Box, Button, Card, Code, Group, ScrollArea, Stack, Text } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
-import {
-    api,
-    type AppConfig,
-    type ConflictItem,
-    type Project,
-    type RuleVersion,
-    type SyncResult,
-    type Tool,
-} from '../api';
+import { api } from '../api';
+import type { AppConfig, ConflictItem, Project, RuleVersion, SyncResult, Tool } from '../types.js';
 import { useT } from '../i18n';
 import { ToolsCard } from './ToolsCard';
 import { ScanFoldersCard } from './ScanFoldersCard';
@@ -115,7 +108,8 @@ export const Dashboard = ({ scanTrigger, syncTrigger, onActionStateChange }: Wor
         setLatestResultType('scan');
         setErrorText('');
         try {
-            setScanProjects((await api.folders.scan()).projects);
+            const scanResult = await api.folders.scan();
+            setScanProjects(scanResult.projects);
         }
         catch (error) {
             setErrorText(String(error));
@@ -137,7 +131,8 @@ export const Dashboard = ({ scanTrigger, syncTrigger, onActionStateChange }: Wor
                 setSyncConflicts(conflicts);
                 return;
             }
-            setSyncResults((await api.sync.run([])).results);
+            const syncResult = await api.sync.run([]);
+            setSyncResults(syncResult.results);
         }
         catch (error) {
             setErrorText(String(error));
@@ -155,7 +150,8 @@ export const Dashboard = ({ scanTrigger, syncTrigger, onActionStateChange }: Wor
         setLatestResultType('sync');
         setErrorText('');
         try {
-            setSyncResults((await api.sync.run(syncConflicts.map(c => c.target))).results);
+            const syncResult = await api.sync.run(syncConflicts.map(c => c.target));
+            setSyncResults(syncResult.results);
             setSyncConflicts(null);
         }
         catch (error) {
@@ -169,9 +165,9 @@ export const Dashboard = ({ scanTrigger, syncTrigger, onActionStateChange }: Wor
     const versionOptions = versions.map(v => ({ value: v.id, label: v.name }));
     const resultVisible = latestResultType === 'scan'
         ? (scanRunning || scanProjects !== null)
-        : latestResultType === 'sync'
-            ? (syncRunning || syncResults !== null || syncConflicts !== null)
-            : false;
+        : (latestResultType === 'sync'
+                ? (syncRunning || syncResults !== null || syncConflicts !== null)
+                : false);
 
     if (loading) {
         return <Box p="xl"><Text c="dimmed">{t.settings.loading}</Text></Box>;

@@ -1,5 +1,5 @@
 import { Card, Checkbox, Group, Select, Stack, Text } from '@mantine/core';
-import { type ProjectSyncConfig, type Tool, type ToolSyncConfig } from '../api';
+import type { ProjectSyncConfig, Tool, ToolSyncConfig } from '../types.js';
 import { useT } from '../i18n';
 
 interface SyncConfigCardProps {

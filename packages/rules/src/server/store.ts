@@ -48,7 +48,7 @@ async function ensureDir(): Promise<void> {
 export async function readStore(): Promise<Store> {
     await ensureDir();
     try {
-        const raw = await fs.readFile(storePath, 'utf-8');
+        const raw = await fs.readFile(storePath, 'utf8');
         const parsed = JSON.parse(raw) as { config?: AppConfig; versions?: { id: string; name: string; content: string }[] };
         // migrate old versions array to .md files
         if (Array.isArray(parsed.versions) && parsed.versions.length > 0) {
@@ -59,7 +59,7 @@ export async function readStore(): Promise<Store> {
                 }
             }
             delete parsed.versions;
-            await fs.writeFile(storePath, JSON.stringify(parsed, null, 2), 'utf-8');
+            await fs.writeFile(storePath, JSON.stringify(parsed, null, 2), 'utf8');
         }
         return { config: parsed.config ?? structuredClone(defaultConfig) };
     }
@@ -70,12 +70,12 @@ export async function readStore(): Promise<Store> {
 
 export async function writeStore(store: Store): Promise<void> {
     await ensureDir();
-    await fs.writeFile(storePath, JSON.stringify(store, null, 2), 'utf-8');
+    await fs.writeFile(storePath, JSON.stringify(store, null, 2), 'utf8');
 }
 
 /** Strip characters that are invalid in filenames across common OSes. */
 export function sanitizeName(name: string): string {
-    return name.trim().replace(/[/\\:*?"<>|]/g, '_');
+    return name.trim().replaceAll(/[/\\:*?"<>|]/g, '_');
 }
 
 export async function listVersions(): Promise<RuleVersion[]> {
@@ -88,15 +88,15 @@ export async function listVersions(): Promise<RuleVersion[]> {
         }
         const id = entry.name.slice(0, -3);
         const filePath = path.join(HERO_U_DIR, entry.name);
-        const [content, stat] = await Promise.all([fs.readFile(filePath, 'utf-8'), fs.stat(filePath)]);
+        const [content, stat] = await Promise.all([fs.readFile(filePath, 'utf8'), fs.stat(filePath)]);
         versions.push({ id, name: id, content, updatedAt: stat.mtime.toISOString() });
     }
-    return versions.sort((a, b) => a.name.localeCompare(b.name));
+    return versions.toSorted((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function readVersionContent(id: string): Promise<string | null> {
     try {
-        return await fs.readFile(path.join(HERO_U_DIR, `${sanitizeName(id)}.md`), 'utf-8');
+        return await fs.readFile(path.join(HERO_U_DIR, `${sanitizeName(id)}.md`), 'utf8');
     }
     catch {
         return null;
@@ -105,7 +105,7 @@ export async function readVersionContent(id: string): Promise<string | null> {
 
 export async function writeVersionFile(id: string, content: string): Promise<void> {
     await ensureDir();
-    await fs.writeFile(path.join(HERO_U_DIR, `${id}.md`), content, 'utf-8');
+    await fs.writeFile(path.join(HERO_U_DIR, `${id}.md`), content, 'utf8');
 }
 
 export async function deleteVersionFile(id: string): Promise<void> {

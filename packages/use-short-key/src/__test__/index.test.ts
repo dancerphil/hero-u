@@ -122,6 +122,7 @@ describe('useHotKey', () => {
     test('subscribe ⌘C then subscribe ⌘V', async () => {
         let cPressedTimes = 0;
         let vPressedTimes = 0;
+        // eslint-disable-next-line unicorn/consistent-function-scoping
         const fireEvents = () => {
             fireEvent.keyDown(document.body, {
                 metaKey: true,

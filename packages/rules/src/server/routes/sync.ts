@@ -2,7 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Hono } from 'hono';
 import { readStore, readVersionContent } from '../store.js';
-import { expandPath, TOOL_DEFINITIONS } from '../tools.js';
+import { expandPath } from '../tools.js';
+import { TOOL_DEFINITIONS } from '../../config/tools.js';
 
 export interface ConflictItem {
     target: string;
@@ -23,7 +24,7 @@ export interface SyncResult {
 
 async function readExisting(filePath: string): Promise<string | null> {
     try {
-        return await fs.readFile(filePath, 'utf-8');
+        return await fs.readFile(filePath, 'utf8');
     }
     catch {
         return null;
@@ -34,7 +35,7 @@ async function writeRuleFile(filePath: string, content: string): Promise<SyncRes
     try {
         const dir = path.dirname(filePath);
         await fs.mkdir(dir, { recursive: true });
-        await fs.writeFile(filePath, content, 'utf-8');
+        await fs.writeFile(filePath, content, 'utf8');
         return { target: filePath, success: true };
     }
     catch (error) {
@@ -86,8 +87,14 @@ router.get('/check', async (c) => {
 
 // POST /api/sync - execute sync, with optional overrides for conflicts
 router.post('/', async (c) => {
-    const body: { overwrite?: string[] } = await c.req.json().catch(() => ({}));
-    const overwriteTargets = new Set(body.overwrite ?? []);
+    let body: { overwrite?: string[] };
+    try {
+        body = await c.req.json();
+    }
+    catch {
+        body = {};
+    }
+    const overwriteTargets = new Set(body.overwrite);
     const store = await readStore();
     const results: SyncResult[] = [];
 

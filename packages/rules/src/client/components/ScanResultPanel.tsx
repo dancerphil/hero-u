@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Card, Code, Group, Modal, ScrollArea, Stack, Text } from '@mantine/core';
-import { api, type Project, type ProjectSyncConfig } from '../api';
+import { api } from '../api';
+import type { Project, ProjectSyncConfig } from '../types.js';
 import { useT } from '../i18n';
 
 interface ScanResultPanelProps {
@@ -28,7 +29,7 @@ export const ScanResultPanel = ({ scanRunning, scanProjects, projectSync, onAddT
                     <Group gap="sm">
                         <Text fw={600}>{t.workflow.scanResult}</Text>
                         <Text fz="sm" c="dimmed">
-                            {scanRunning ? t.folders.scanning : scanProjects !== null ? t.folders.projectsFound(scanProjects.length) : null}
+                            {scanRunning ? t.folders.scanning : (scanProjects !== null ? t.folders.projectsFound(scanProjects.length) : null)}
                         </Text>
                     </Group>
                     {scanProjects?.map((project) => {

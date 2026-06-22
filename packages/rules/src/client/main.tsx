@@ -6,7 +6,10 @@ import './index.css';
 import { I18nProvider } from './i18n';
 import { App } from './App';
 
-createRoot(document.getElementById('root')).render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = document.querySelector('#root')!;
+
+createRoot(root).render(
     <StrictMode>
         <MantineProvider defaultColorScheme="dark" cssVariablesResolver={v8CssVariablesResolver}>
             <I18nProvider>

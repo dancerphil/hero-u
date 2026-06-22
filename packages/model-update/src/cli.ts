@@ -40,17 +40,20 @@ const parseArgs = (argv: string[]) => {
 };
 
 const main = async () => {
-    const args = parseArgs(process.argv.slice(2));
-    if (args.help) {
-        process.stdout.write(HELP_TEXT);
-        return;
-    }
+    try {
+        const args = parseArgs(process.argv.slice(2));
+        if (args.help) {
+            process.stdout.write(HELP_TEXT);
+            return;
+        }
 
-    await updateModelList({ filePath: args.filePath, providers: args.providers });
+        await updateModelList({ filePath: args.filePath, providers: args.providers });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        process.stderr.write(`${message}\n`);
+        process.exitCode = 1;
+    }
 };
 
-main().catch((error: unknown) => {
-    const message = error instanceof Error ? error.message : String(error);
-    process.stderr.write(`${message}\n`);
-    process.exitCode = 1;
-});
+await main();

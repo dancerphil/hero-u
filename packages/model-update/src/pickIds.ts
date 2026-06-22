@@ -116,5 +116,5 @@ export const pickIds = (idsAll: string[]) => {
         }
     });
 
-    return Array.from(latestByFamily.values()).map(item => item.id);
+    return [...latestByFamily.values()].map(item => item.id);
 };

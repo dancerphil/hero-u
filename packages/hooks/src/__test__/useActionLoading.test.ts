@@ -4,6 +4,7 @@ import { useActionLoading } from '../useActionLoading.js';
 
 describe('useActionLoading', () => {
     test('should return true if there is no action loading', async () => {
+        // eslint-disable-next-line unicorn/consistent-function-scoping
         const action = async () => new Promise(resolve => setTimeout(resolve, 0));
         const { result } = renderHook(() => useActionLoading(action));
         const handler = result.current[0];

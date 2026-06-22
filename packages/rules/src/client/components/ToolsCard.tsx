@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Badge, Button, Card, Code, Group, Modal, ScrollArea, Stack, Text } from '@mantine/core';
-import { api, type Tool, type ToolSyncConfig } from '../api';
+import { api } from '../api';
+import type { Tool, ToolSyncConfig } from '../types.js';
 import { useT } from '../i18n';
 
 interface ToolsCardProps {

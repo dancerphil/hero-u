@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Alert, Badge, Button, Card, Code, Group, Stack, Text } from '@mantine/core';
 import { IconAlertCircle, IconCheck, IconMinus, IconX } from '@tabler/icons-react';
-import { type ConflictItem, type SyncResult } from '../api';
+import type { ConflictItem, SyncResult } from '../types.js';
 import { useT } from '../i18n';
 
 interface SyncResultPanelProps {

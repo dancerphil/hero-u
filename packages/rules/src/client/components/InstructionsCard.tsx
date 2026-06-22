@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Button, Card, Group, NavLink, ScrollArea, Stack, Text, TextInput, Textarea } from '@mantine/core';
-import { api, type RuleVersion } from '../api';
+import { api } from '../api';
+import type { RuleVersion } from '../types.js';
 import { useT } from '../i18n';
 
 interface InstructionsCardProps {

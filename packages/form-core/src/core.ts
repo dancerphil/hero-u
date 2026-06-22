@@ -178,7 +178,7 @@ export function getInternalRef<T extends object = any>(
         const values = ref.current.values;
         const errors = {};
         const validate = ref.current.validate;
-        const validateEntries: [string, FieldValidate][] = Array.from(ref.current.validateMap.entries());
+        const validateEntries: [string, FieldValidate][] = [...ref.current.validateMap.entries()];
         let pendingMutex = validateEntries.length + (validate ? 1 : 0);
         const promise = new Promise<Errors>((resolve) => {
             if (pendingMutex === 0) {
@@ -216,9 +216,9 @@ export function getInternalRef<T extends object = any>(
         ref.current.isValidating = true;
         ref.current.emitMeta();
         if (!workInProgressValidationPromise) {
-            workInProgressValidationPromise = new Promise((resolve) => {
-                workInProgressValidationPromiseResolve = resolve;
-            });
+            const { promise, resolve } = Promise.withResolvers<void>();
+            workInProgressValidationPromise = promise;
+            workInProgressValidationPromiseResolve = resolve;
         }
         workInProgressValidationPromiseFiber = null;
         clearTimeout(timer);
@@ -226,6 +226,7 @@ export function getInternalRef<T extends object = any>(
             () => {
                 const promise = private_pureValidation();
                 workInProgressValidationPromiseFiber = promise;
+                // eslint-disable-next-line unicorn/prefer-await
                 promise.then((errors) => {
                     if (workInProgressValidationPromiseFiber === promise) {
                         ref.current.errors = errors;

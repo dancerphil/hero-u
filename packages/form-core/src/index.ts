@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-export-from */
 import { encodePath, decodePath, Path, PathSegment } from './path.js';
 import { FormProviderProps, FieldState, FieldValidate } from './interface.js';
 import { FormProvider, useFormContext } from './Context.js';

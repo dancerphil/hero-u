@@ -31,8 +31,10 @@ describe('path', () => {
         expect(encodePath(decodePath('a.1.c'))).toEqual('a.1.c');
 
         const path = ['a', '1.b', 'c'];
-        expect(encodePath(decodePath(encodePath(path)))).toEqual(encodePath(path));
+        const nameRepeatEncoded = encodePath(decodePath(encodePath(path)));
+        expect(nameRepeatEncoded).toEqual(encodePath(path));
         const name = 'a[1].b.c';
-        expect(decodePath(encodePath(decodePath(name)))).toEqual(decodePath(name));
+        const pathRepeatDecoded = decodePath(encodePath(decodePath(name)));
+        expect(pathRepeatDecoded).toEqual(decodePath(name));
     });
 });

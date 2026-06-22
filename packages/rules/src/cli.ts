@@ -6,15 +6,18 @@ import { startServer } from './server/index.js';
 const PORT = 7788;
 
 async function main(): Promise<void> {
-    await startServer(PORT);
-    const url = `http://localhost:${PORT}`;
-    process.stdout.write(`@hero-u/rules running at ${url}\n`);
-    if (!process.argv.includes('--no-open')) {
-        await open(url);
+    try {
+        await startServer(PORT);
+        const url = `http://localhost:${PORT}`;
+        process.stdout.write(`@hero-u/rules running at ${url}\n`);
+        if (!process.argv.includes('--no-open')) {
+            await open(url);
+        }
+    }
+    catch (error) {
+        process.stderr.write(`Error: ${String(error)}\n`);
+        process.exit(1);
     }
 }
 
-main().catch((error) => {
-    process.stderr.write(`Error: ${String(error)}\n`);
-    process.exit(1);
-});
+await main();

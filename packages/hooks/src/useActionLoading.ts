@@ -8,6 +8,7 @@ export function useActionLoading<A extends AsyncFunction>(action: A): [A, boolea
         (...args: Parameters<A>) => {
             setPendingMutex(v => v + 1);
             const pending = action(...args);
+            // eslint-disable-next-line unicorn/prefer-await
             pending.finally(() => setPendingMutex(v => v - 1));
             return pending;
         },

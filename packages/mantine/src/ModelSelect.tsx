@@ -1,6 +1,6 @@
 import { useMemo, type ReactNode } from 'react';
 import { Combobox, Group, InputBase, ScrollArea, Text, Tooltip, useCombobox } from '@mantine/core';
-import { groupBy } from 'lodash-es';
+import { groupBy, sortBy } from 'lodash-es';
 import { IconHelp } from '@tabler/icons-react';
 
 export interface ModelSelectOption {
@@ -30,7 +30,7 @@ export const ModelSelect = ({ value, onChange, options, disabled = false, placeh
             const group = groupBy(withDefaults, 'provider');
             return Object.entries(group).map(([provider, groupedModels]) => ({
                 provider,
-                models: [...groupedModels].sort((a, b) => (a.multiplier ?? 0) - (b.multiplier ?? 0)),
+                models: sortBy(groupedModels, m => m.multiplier ?? 0),
             }));
         },
         [options],

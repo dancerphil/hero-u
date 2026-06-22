@@ -1,10 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { type ToolDefinition, TOOL_DEFINITIONS } from '../config/tools.js';
-
-export type { ToolDefinition };
-export { TOOL_DEFINITIONS };
+import { TOOL_DEFINITIONS } from '../config/tools.js';
 
 export interface GlobalFile {
     path: string;
@@ -43,7 +40,7 @@ export async function readGlobalFile(filePath: string): Promise<GlobalFile> {
             const mdFiles = entries.filter(e => e.endsWith('.md') || e.endsWith('.mdc'));
             const contents = await Promise.all(
                 mdFiles.map(async (f) => {
-                    const content = await fs.readFile(path.join(expandedPath, f), 'utf-8');
+                    const content = await fs.readFile(path.join(expandedPath, f), 'utf8');
                     return `# ${f}\n\n${content}`;
                 }),
             );
@@ -55,7 +52,7 @@ export async function readGlobalFile(filePath: string): Promise<GlobalFile> {
                 isDirectory: true,
             };
         }
-        const content = await fs.readFile(expandedPath, 'utf-8');
+        const content = await fs.readFile(expandedPath, 'utf8');
         return { path: filePath, expandedPath, exists: true, content, isDirectory: false };
     }
     catch {
