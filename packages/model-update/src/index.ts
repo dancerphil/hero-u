@@ -3,15 +3,6 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { parseModelId, type OpenRouterModel } from '@hero-u/model';
 import { fetchOpenRouterModels } from './fetch.js';
 import { pickIds } from './pickIds.js';
-export { parseModelId, isVersion, isParameter, isPreview, isSnapshot } from '@hero-u/model';
-export type {
-    ParsedModelId,
-    OpenRouterModelArchitecture,
-    OpenRouterModelPricing,
-    OpenRouterTopProvider,
-    OpenRouterModelLinks,
-    OpenRouterModel,
-} from '@hero-u/model';
 
 interface Options {
     filePath?: string;

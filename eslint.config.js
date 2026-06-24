@@ -1,9 +1,9 @@
-import { reactConfig } from '@hero-u/eslint-config/react.js';
-import { unicornConfig } from '@hero-u/eslint-config/unicorn.js';
+import { reactConfigs } from '@hero-u/eslint-config/react.js';
+import { unicornConfigs } from '@hero-u/eslint-config/unicorn.js';
 
 export default [
-    ...reactConfig,
-    ...unicornConfig,
+    ...reactConfigs,
+    ...unicornConfigs,
     {
         files: ['packages/rules/src/server/**'],
         rules: {

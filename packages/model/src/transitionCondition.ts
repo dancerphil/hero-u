@@ -3,9 +3,10 @@ export const isVersion = (part: string): boolean => {
         return false;
     }
 
-    const firstChar = part.at(0).toLowerCase();
-    const lastChar = part.at(-1).toLowerCase();
+    const firstChar = part.at(0)?.toLowerCase();
+    const lastChar = part.at(-1)?.toLowerCase();
 
+    // @ts-ignore
     if (firstChar >= 'a' && firstChar <= 'z') {
         if (part.length === 1) {
             return false;
@@ -30,7 +31,7 @@ export const isParameter = (part: string): boolean => {
         return false;
     }
 
-    const lastChar = part.at(-1).toLowerCase();
+    const lastChar = part.at(-1)?.toLowerCase();
 
     if (lastChar !== 'b' || part.length === 1) {
         return false;

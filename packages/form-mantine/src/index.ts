@@ -1,3 +1,4 @@
+/* eslint-disable hero-u/no-reexport */
 export * from '@hero-u/form-core';
 export { Field } from './Field.js';
 export type { FieldProps } from './Field.js';
