@@ -1,8 +1,8 @@
 import pluginVue from 'eslint-plugin-vue';
 import globals from 'globals';
-import { typescriptConfig } from './typescript.js';
+import { typescriptConfigs } from './typescript.js';
 
-export const vueExtraConfig: import('eslint').Linter.Config[] = [
+export const vueExtraConfigs: import('eslint').Linter.Config[] = [
     ...pluginVue.configs['flat/recommended'],
     // 开启
     {
@@ -39,12 +39,12 @@ export const vueExtraConfig: import('eslint').Linter.Config[] = [
     },
 ];
 
-export const vueConfig: import('eslint').Linter.Config[] = [
-    ...typescriptConfig,
+export const vueConfigs: import('eslint').Linter.Config[] = [
+    ...typescriptConfigs,
     {
         languageOptions: {
             globals: globals.browser,
         },
     },
-    ...vueExtraConfig,
+    ...vueExtraConfigs,
 ];

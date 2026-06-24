@@ -4,10 +4,11 @@ import eslint from '@eslint/js';
 import importX from 'eslint-plugin-import-x';
 import typescriptEslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import { heroUConfigs } from './heroU.js';
 
 const gitignorePath = path.resolve('.', '.gitignore');
 
-const stylisticConfigs = stylistic.configs.customize({
+const stylisticConfig: import('eslint').Linter.Config = stylistic.configs.customize({
     indent: 4,
     quotes: 'single',
     semi: true,
@@ -15,7 +16,7 @@ const stylisticConfigs = stylistic.configs.customize({
     commaDangle: 'always-multiline',
 });
 
-export const typescriptConfig: import('eslint').Linter.Config[] = [
+export const typescriptConfigs: import('eslint').Linter.Config[] = [
     includeIgnoreFile(gitignorePath),
     {
         name: 'js/config',
@@ -23,7 +24,8 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
     },
     ...typescriptEslint.configs.strict,
     ...typescriptEslint.configs.stylistic,
-    stylisticConfigs,
+    stylisticConfig,
+    ...heroUConfigs,
     {
         plugins: {
             'import-x': importX,
@@ -51,18 +53,6 @@ export const typescriptConfig: import('eslint').Linter.Config[] = [
             'no-param-reassign': 'error',
             'complexity': 'error',
             'eqeqeq': ['error', 'smart'],
-            'no-restricted-syntax': [
-                'error',
-                {
-                    selector: 'ClassDeclaration',
-                },
-                {
-                    selector: 'MemberExpression[object.name="React"]',
-                },
-                {
-                    selector: 'TSQualifiedName[left.name="React"]',
-                },
-            ],
             'import-x/no-default-export': 'error',
             'import-x/order': ['error', {
                 groups: [

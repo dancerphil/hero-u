@@ -1,6 +1,6 @@
 import unicorn from 'eslint-plugin-unicorn';
 
-export const unicornConfig: import('eslint').Linter.Config[] = [
+export const unicornConfigs: import('eslint').Linter.Config[] = [
     unicorn.configs.recommended,
     // 关闭
     {

@@ -1,9 +1,9 @@
 import reactPlugin from '@eslint-react/eslint-plugin';
 import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
-import { typescriptConfig } from './typescript.js';
+import { typescriptConfigs } from './typescript.js';
 
-export const reactExtraConfig: import('eslint').Linter.Config[] = [
+export const reactExtraConfigs: import('eslint').Linter.Config[] = [
     reactPlugin.configs['recommended-typescript'],
     reactHooks.configs.flat.recommended,
     // 开启
@@ -33,11 +33,11 @@ export const reactExtraConfig: import('eslint').Linter.Config[] = [
 ];
 
 export const reactConfig: import('eslint').Linter.Config[] = [
-    ...typescriptConfig,
+    ...typescriptConfigs,
     {
         languageOptions: {
             globals: globals.browser,
         },
     },
-    ...reactExtraConfig,
+    ...reactExtraConfigs,
 ];
