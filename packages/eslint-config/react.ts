@@ -32,7 +32,7 @@ export const reactExtraConfigs: import('eslint').Linter.Config[] = [
     },
 ];
 
-export const reactConfig: import('eslint').Linter.Config[] = [
+export const reactConfigs: import('eslint').Linter.Config[] = [
     ...typescriptConfigs,
     {
         languageOptions: {
