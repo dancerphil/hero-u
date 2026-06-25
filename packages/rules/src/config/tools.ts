@@ -7,7 +7,7 @@ export interface ToolDefinition {
     projectFileNames: string[];
 }
 
-// The tool is supported only if it supports project/AGENTS.md
+// The tool is supported only if it supports project-level rule files (AGENTS.md or tool-specific equivalents)
 export const TOOL_DEFINITIONS: ToolDefinition[] = [
     {
         id: 'claude',
@@ -15,7 +15,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         detectPath: '~/.claude',
         globalFilePaths: ['~/.claude/CLAUDE.md'],
         globalSyncPath: '~/.claude/CLAUDE.md',
-        projectFileNames: ['AGENTS.md'],
+        projectFileNames: ['CLAUDE.md'],
     },
     {
         id: 'opencode',

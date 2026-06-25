@@ -2,8 +2,16 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Hono } from 'hono';
 import { readStore, readVersionContent } from '../store.js';
-import { expandPath } from '../tools.js';
+import { expandPath, detectTools, type DetectedTool } from '../tools.js';
 import { TOOL_DEFINITIONS } from '../../config/tools.js';
+
+function getInstalledProjectFileNames(detectedTools: DetectedTool[]): string[] {
+    return [...new Set(
+        detectedTools
+            .filter(t => t.installed)
+            .flatMap(t => t.projectFileNames),
+    )];
+}
 
 export interface ConflictItem {
     target: string;
@@ -45,7 +53,7 @@ async function writeRuleFile(filePath: string, content: string): Promise<SyncRes
 
 // GET /api/sync/check - detect conflicts before syncing
 router.get('/check', async (c) => {
-    const store = await readStore();
+    const [store, detectedTools] = await Promise.all([readStore(), detectTools()]);
     const conflicts: ConflictItem[] = [];
 
     for (const [toolId, toolSync] of Object.entries(store.config.toolSync)) {
@@ -67,6 +75,7 @@ router.get('/check', async (c) => {
         }
     }
 
+    const projectFileNames = getInstalledProjectFileNames(detectedTools);
     for (const [projectPath, projectSync] of Object.entries(store.config.projectSync)) {
         if (!projectSync.enabled || !projectSync.versionId) {
             continue;
@@ -75,10 +84,12 @@ router.get('/check', async (c) => {
         if (content === null) {
             continue;
         }
-        const targetPath = path.join(projectPath, 'AGENTS.md');
-        const existing = await readExisting(targetPath);
-        if (existing !== null && existing.trim() !== content.trim()) {
-            conflicts.push({ target: targetPath, existingContent: existing, newContent: content, toolId: '', projectPath });
+        for (const fileName of projectFileNames) {
+            const targetPath = path.join(projectPath, fileName);
+            const existing = await readExisting(targetPath);
+            if (existing !== null && existing.trim() !== content.trim()) {
+                conflicts.push({ target: targetPath, existingContent: existing, newContent: content, toolId: '', projectPath });
+            }
         }
     }
 
@@ -95,7 +106,7 @@ router.post('/', async (c) => {
         body = {};
     }
     const overwriteTargets = new Set(body.overwrite);
-    const store = await readStore();
+    const [store, detectedTools] = await Promise.all([readStore(), detectTools()]);
     const results: SyncResult[] = [];
 
     for (const [toolId, toolSync] of Object.entries(store.config.toolSync)) {
@@ -119,6 +130,7 @@ router.post('/', async (c) => {
         results.push(await writeRuleFile(targetPath, content));
     }
 
+    const projectFileNames = getInstalledProjectFileNames(detectedTools);
     for (const [projectPath, projectSync] of Object.entries(store.config.projectSync)) {
         if (!projectSync.enabled || !projectSync.versionId) {
             continue;
@@ -127,13 +139,15 @@ router.post('/', async (c) => {
         if (content === null) {
             continue;
         }
-        const targetPath = path.join(projectPath, 'AGENTS.md');
-        const existing = await readExisting(targetPath);
-        if (existing !== null && existing.trim() !== content.trim() && !overwriteTargets.has(targetPath)) {
-            results.push({ target: targetPath, success: false, skipped: true, error: 'Conflict: file differs.' });
-            continue;
+        for (const fileName of projectFileNames) {
+            const targetPath = path.join(projectPath, fileName);
+            const existing = await readExisting(targetPath);
+            if (existing !== null && existing.trim() !== content.trim() && !overwriteTargets.has(targetPath)) {
+                results.push({ target: targetPath, success: false, skipped: true, error: 'Conflict: file differs.' });
+                continue;
+            }
+            results.push(await writeRuleFile(targetPath, content));
         }
-        results.push(await writeRuleFile(targetPath, content));
     }
 
     return c.json({ results });
