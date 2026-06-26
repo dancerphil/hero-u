@@ -1,0 +1,48 @@
+{
+    "name": "@hero-u/hermes",
+    "version": "1.0.0",
+    "description": "hero-u 的微信个人助手：连接微信、联网搜索、定时任务",
+    "keywords": [
+        "hero-u",
+        "hermes",
+        "wechat",
+        "weixin",
+        "assistant",
+        "cron"
+    ],
+    "repository": "github:dancerphil/hero-u",
+    "author": "Cong Zhang <dancerphil1994@gmail.com>",
+    "license": "MIT",
+    "type": "module",
+    "bin": {
+        "hero-hermes": "es/bin.js"
+    },
+    "files": [
+        "es"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=20"
+    },
+    "scripts": {
+        "build": "rm -rf es/ && tsc",
+        "lint-type": "tsc --noEmit",
+        "prepublishOnly": "pnpm build"
+    },
+    "dependencies": {
+        "@hero-u/ai": "workspace:*",
+        "@ai-sdk/deepseek": "^2.0.39",
+        "@openrouter/ai-sdk-provider": "^2.9.1",
+        "ai": "^6.0.209",
+        "croner": "^9.1.0",
+        "dotenv": "^17.4.2",
+        "qrcode": "^1.5.4",
+        "zod": "^4.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "^26.0.0",
+        "@types/qrcode": "^1.5.6"
+    }
+}
