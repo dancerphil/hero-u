@@ -1,13 +1,18 @@
 import { Cron } from 'croner';
 import { runCron } from '../agent.js';
 import { listCronJobs, type CronJob } from '../cron/store.js';
-import { gateways } from '../weixin/gateway.js';
+import { gateways } from '../gateways.js';
 
 const crons = new Map<string, Cron>();
 
 // 到点由 AI 根据 task 生成提醒正文并发回给用户。
 const runJob = async (job: CronJob): Promise<void> => {
-    await gateways.get(job.accountId)?.send(job.userId, `⏰ ${await runCron(job.task)}`);
+    const gateway = gateways.get(job.accountId);
+    if (!gateway) {
+        console.warn(`跳过定时任务 ${job.id}：账号 ${job.accountId} 未启动`);
+        return;
+    }
+    await gateway.send(job.userId, `⏰ ${await runCron(job.task)}`);
 };
 
 // 同步 cron.json 与运行中的定时器：新任务在下次同步时生效。

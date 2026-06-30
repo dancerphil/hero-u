@@ -26,16 +26,23 @@ export const setup = async (): Promise<void> => {
         await ensureKey(rl, env, 'DEEPSEEK_API_KEY', 'DeepSeek API Key（默认 provider）');
         await ensureKey(rl, env, 'OPENROUTER_API_KEY', 'OpenRouter API Key（启用 OpenRouter 时用，可留空）');
 
+        // 飞书：自建应用凭据，开启机器人能力即可，websocket 长连接无需公网。
+        await ensureKey(rl, env, 'FEISHU_APP_ID', '飞书 App ID（接入飞书时填，可留空）');
+        if (env.FEISHU_APP_ID) {
+            await ensureKey(rl, env, 'FEISHU_APP_SECRET', '飞书 App Secret');
+            await ensureKey(rl, env, 'FEISHU_DOMAIN', '飞书域（feishu 国内 / lark 国际，默认 feishu）');
+            await ensureKey(rl, env, 'FEISHU_ALLOWED_USERS', '飞书白名单 open_id（逗号分隔，可留空表示不限制）');
+        }
+
         const accounts = listAccounts();
         if (accounts.length > 0) {
             console.log(`✓ 已登录 ${accounts.length} 个微信：${accounts.map(account => account.account_id).join('、')}`);
-            const answer = await rl.question('是否再登录一个微信账号？(y/N) ');
-            if (answer.trim().toLowerCase() !== 'y') {
-                console.log('配置完成，运行 hero-hermes start 启动助手。');
-                return;
-            }
         }
-        await qrLogin();
+        const prompt = accounts.length > 0 ? '是否再登录一个微信账号？(y/N) ' : '是否登录微信账号？(y/N) ';
+        const answer = await rl.question(prompt);
+        if (answer.trim().toLowerCase() === 'y') {
+            await qrLogin();
+        }
         console.log('配置完成，运行 hero-hermes start 启动助手。');
     }
     finally {

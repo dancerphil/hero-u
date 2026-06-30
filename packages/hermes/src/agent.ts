@@ -1,4 +1,4 @@
-import { generateText, stepCountIs, tool, type ModelMessage } from 'ai';
+import { generateText, stepCountIs, tool, type ModelMessage, type ToolSet } from 'ai';
 import { z } from 'zod';
 import { createWebSearchTool } from '@hero-u/ai';
 import { model } from './llm/models.js';
@@ -9,6 +9,12 @@ import { env } from './env.js';
 
 // 联网搜索走 OpenRouter 的 web 插件，与对话主模型解耦。
 const WEB_SEARCH_MODEL = 'deepseek/deepseek-v4-flash:online';
+
+// 联网搜索工具：聊天和定时任务共用；没配 OPENROUTER_API_KEY 时为空。
+const webSearchTools = (): ToolSet =>
+    env.OPENROUTER_API_KEY
+        ? { web_search: createWebSearchTool({ apiKey: env.OPENROUTER_API_KEY, model: WEB_SEARCH_MODEL }) }
+        : {};
 
 export interface AgentDeps {
     accountId: string;
@@ -77,9 +83,7 @@ const buildTools = (deps: AgentDeps) => {
                 return `把这个二维码图片转发给对方，扫码即可接入新的微信账号（5 分钟内有效）。请把链接原样发给用户：\n${qrcode.imageUrl}`;
             },
         }),
-        ...(env.OPENROUTER_API_KEY
-            ? { web_search: createWebSearchTool({ apiKey: env.OPENROUTER_API_KEY, model: WEB_SEARCH_MODEL }) }
-            : {}),
+        ...webSearchTools(),
     };
 };
 
@@ -103,8 +107,11 @@ export const runAgent = async (text: string, deps: AgentDeps): Promise<string> =
 export const runCron = async (task: string): Promise<string> => {
     const result = await generateText({
         model,
-        system: '你是提醒助手。根据用户给的任务描述，生成要发送的提醒消息正文，简洁、口语化，直接输出正文，不要解释。',
+        system: `你是提醒助手。根据用户给的任务描述，生成要发送的提醒消息正文，简洁、口语化，直接输出正文，不要解释。需要最新或实时信息时调用 web_search 联网搜索。
+当前时间：${new Date().toLocaleString('zh-CN')}。涉及新闻、资讯、天气等时效信息时，务必先联网搜索，并只采用与当前日期相符的最新内容。`,
         prompt: task,
+        tools: webSearchTools(),
+        stopWhen: stepCountIs(5),
     });
     return result.text;
 };

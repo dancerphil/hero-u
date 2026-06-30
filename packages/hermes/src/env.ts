@@ -7,6 +7,8 @@ const envPath = heroUPath('.env');
 export interface HeroUEnv {
     DEEPSEEK_API_KEY?: string;
     OPENROUTER_API_KEY?: string;
+    FEISHU_APP_ID?: string;
+    FEISHU_APP_SECRET?: string;
     [key: string]: string | undefined;
 }
 

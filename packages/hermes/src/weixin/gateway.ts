@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { runAgent } from '../agent.js';
+import { gateways } from '../gateways.js';
 import { getUpdates, sendMessage } from './api.js';
 import { createTypingController } from './typing.js';
 import {
@@ -23,13 +24,6 @@ const extractText = (itemList: any[]): string => {
     }
     return '';
 };
-
-export interface WeixinGateway {
-    send: (userId: string, text: string) => Promise<void>;
-}
-
-// 全局单例：每个账号一个网关，由 startGateway 自注册，scheduler 按 accountId 取用。
-export const gateways = new Map<string, WeixinGateway>();
 
 export const startGateway = (account: WeixinAccount): void => {
     const accountId = account.account_id;

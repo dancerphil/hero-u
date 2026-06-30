@@ -89,7 +89,7 @@ export const getUpdates = async (
     }
 };
 
-export const sendMessage = (
+export const sendMessage = async (
     baseUrl: string,
     token: string,
     to: string,
@@ -108,7 +108,12 @@ export const sendMessage = (
     if (contextToken) {
         message.context_token = contextToken;
     }
-    return apiPost(baseUrl, EP_SEND_MESSAGE, { msg: message }, token, 15_000);
+    const response = await apiPost(baseUrl, EP_SEND_MESSAGE, { msg: message }, token, 15_000);
+    // ilink 在 HTTP 200 下用业务码 ret 表示被拒（如主动推送超出会话窗口）；不暴露会让定时推送静默失败。
+    if (response.ret !== undefined && response.ret !== 0) {
+        throw new Error(`iLink sendmessage 被拒 ret=${response.ret}: ${JSON.stringify(response).slice(0, 200)}`);
+    }
+    return response;
 };
 
 export const getConfig = (
