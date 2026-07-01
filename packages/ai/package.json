@@ -1,6 +1,6 @@
 {
     "name": "@hero-u/ai",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "hero-u 的 AI 工具集",
     "keywords": [
         "hero-u",
@@ -24,17 +24,27 @@
         "access": "public"
     },
     "scripts": {
-        "build": "rm -rf es/ && tsc",
+        "build": "rm -rf es/ && tsc && cp src/*.module.css es/",
         "lint-type": "tsc --noEmit",
         "prepublishOnly": "pnpm build"
     },
     "peerDependencies": {
+        "@hero-u/mantine": ">=1.1.0",
+        "@mantine/core": ">=9.0.0",
+        "@tabler/icons-react": ">=3.0.0",
         "ai": "^6.0.0",
+        "react": ">=19",
+        "uuid": "^14.0.1",
         "zod": "^4.0.0"
     },
     "devDependencies": {
+        "@hero-u/mantine": "workspace:*",
+        "@mantine/core": "^9.3.2",
+        "@tabler/icons-react": "^3.44.0",
         "@types/node": "^26.0.0",
+        "@types/react": "^19.2.17",
         "ai": "^6.0.209",
+        "react": "^19.2.7",
         "zod": "^4.4.3"
     }
 }

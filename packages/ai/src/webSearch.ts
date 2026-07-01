@@ -40,6 +40,8 @@ export const webSearch = async (options: WebSearchOptions): Promise<WebNews[]> =
         throw new Error('缺少 OpenRouter API Key，无法执行联网搜索');
     }
     const cappedResults = Math.min(Math.max(maxResults, 1), 10);
+    // 模型的训练数据存在截止日期，不显式告知当前日期时容易把"近期"理解成训练数据里最新的年份，导致搜索结果偏旧。
+    const today = new Date().toISOString().slice(0, 10);
     const response = await fetch(OPENROUTER_URL, {
         method: 'POST',
         headers: {
@@ -49,7 +51,7 @@ export const webSearch = async (options: WebSearchOptions): Promise<WebNews[]> =
         body: JSON.stringify({
             model,
             plugins: [{ id: 'web', max_results: cappedResults }],
-            messages: [{ role: 'user', content: prompt(query) }],
+            messages: [{ role: 'user', content: `今天是 ${today}。${prompt(query)}` }],
         }),
     });
     if (!response.ok) {

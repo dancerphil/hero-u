@@ -1,0 +1,15 @@
+.header {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.content {
+    margin-top: 6px;
+    padding-left: 12px;
+    padding-top: 4px;
+    border-left: 2px solid var(--mantine-color-gray-3);
+    color: var(--mantine-color-dimmed);
+    font-size: var(--mantine-font-size-sm);
+}
