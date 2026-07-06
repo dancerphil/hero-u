@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { createWebSearchTool } from '@hero-u/ai';
 import { model } from './llm/models.js';
 import { addCronJob, listCronJobs, removeCronJob, updateCronJob } from './cron/store.js';
-import { requestQrcode, waitForLogin } from './weixin/qrLogin.js';
 import { loadSession, saveSession } from './session.js';
 import { env } from './env.js';
 
@@ -24,12 +23,11 @@ export interface AgentDeps {
 }
 
 const systemPrompt = (): string =>
-    `你是 hero-u 的微信助手 hero-hermes，用简洁口语化的中文回复。
+    `你是 hero-u 的飞书助手 hero-hermes，用简洁口语化的中文回复。
 - 用户要创建/查看/修改/删除定时提醒时调用相应工具；schedule 必须是标准 5 段 cron 表达式（分 时 日 月 周），task 是到点要触发的提醒或指令。
 - 修改或删除前若不知道任务 id，先用 list_crons 查到 id。
 - 需要最新或实时信息时调用 web_search 联网搜索。
 - 当用户的需求适合用定时提醒解决时（如重复待办、周期提醒），主动建议并帮他设成定时任务。
-- 用户想邀请别人或接入新微信账号时调用 invite 获取二维码，并把返回的图片链接原样发给用户，不要改写链接。
 当前时间：${new Date().toLocaleString('zh-CN')}`;
 
 const buildTools = (deps: AgentDeps) => {
@@ -72,16 +70,6 @@ const buildTools = (deps: AgentDeps) => {
             description: '删除指定 id 的定时任务。',
             inputSchema: z.object({ id: z.string() }),
             execute: async ({ id }) => (removeCronJob(id) ? '已删除' : `未找到任务 ${id}`),
-        }),
-        invite: tool({
-            description: '当用户想邀请别人、接入新的微信账号或索要二维码时调用，返回一张可扫码登录的二维码图片链接。',
-            inputSchema: z.object({}),
-            execute: async () => {
-                const qrcode = await requestQrcode();
-                // 后台等待扫码确认；确认后 saveAccount 会被账号目录监听捕获，自动接入新账号、无需重启。
-                void waitForLogin(qrcode.value).catch(error => console.error('邀请登录轮询失败:', error));
-                return `把这个二维码图片转发给对方，扫码即可接入新的微信账号（5 分钟内有效）。请把链接原样发给用户：\n${qrcode.imageUrl}`;
-            },
         }),
         ...webSearchTools(),
     };

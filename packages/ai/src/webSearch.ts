@@ -23,6 +23,8 @@ export interface WebSearchOptions {
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
+const today = new Date().toISOString().slice(0, 10);
+
 const defaultPrompt = (query: string): string => `请搜索与以下查询最相关的近期信息。查询：${query}`;
 
 const toSource = (url: string): string => {
@@ -40,8 +42,6 @@ export const webSearch = async (options: WebSearchOptions): Promise<WebNews[]> =
         throw new Error('缺少 OpenRouter API Key，无法执行联网搜索');
     }
     const cappedResults = Math.min(Math.max(maxResults, 1), 10);
-    // 模型的训练数据存在截止日期，不显式告知当前日期时容易把"近期"理解成训练数据里最新的年份，导致搜索结果偏旧。
-    const today = new Date().toISOString().slice(0, 10);
     const response = await fetch(OPENROUTER_URL, {
         method: 'POST',
         headers: {
@@ -81,15 +81,15 @@ export interface CreateWebSearchToolOptions {
     model: string;
     description?: string;
     maxResults?: number;
-    buildPrompt?: (query: string) => string;
+    prompt?: (query: string) => string;
 }
 
 // 把 OpenRouter 联网搜索包成一个 AI SDK 工具；可自定义的部分都通过参数传入。
 export const createWebSearchTool = (options: CreateWebSearchToolOptions) => {
-    const { apiKey, model, description = '联网搜索最新信息，返回相关网页的标题、链接与摘要。', maxResults, buildPrompt } = options;
+    const { apiKey, model, description = '联网搜索最新信息，返回相关网页的标题、链接与摘要。', maxResults, prompt } = options;
     return tool({
-        description,
+        description: `今天是 ${today}。${description}`,
         inputSchema: z.object({ query: z.string().describe('搜索查询') }),
-        execute: ({ query }) => webSearch({ apiKey, model, query, maxResults, prompt: buildPrompt }),
+        execute: ({ query }) => webSearch({ apiKey, model, query, maxResults, prompt: prompt }),
     });
 };

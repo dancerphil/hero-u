@@ -1,7 +1,5 @@
 import { createInterface, type Interface } from 'node:readline/promises';
 import { readEnv, writeEnv, type HeroUEnv } from './env.js';
-import { qrLogin } from './weixin/qrLogin.js';
-import { listAccounts } from './weixin/account.js';
 
 const ensureKey = async (rl: Interface, env: HeroUEnv, key: string, label: string): Promise<void> => {
     if (env[key]) {
@@ -34,15 +32,6 @@ export const setup = async (): Promise<void> => {
             await ensureKey(rl, env, 'FEISHU_ALLOWED_USERS', '飞书白名单 open_id（逗号分隔，可留空表示不限制）');
         }
 
-        const accounts = listAccounts();
-        if (accounts.length > 0) {
-            console.log(`✓ 已登录 ${accounts.length} 个微信：${accounts.map(account => account.account_id).join('、')}`);
-        }
-        const prompt = accounts.length > 0 ? '是否再登录一个微信账号？(y/N) ' : '是否登录微信账号？(y/N) ';
-        const answer = await rl.question(prompt);
-        if (answer.trim().toLowerCase() === 'y') {
-            await qrLogin();
-        }
         console.log('配置完成，运行 hero-hermes start 启动助手。');
     }
     finally {

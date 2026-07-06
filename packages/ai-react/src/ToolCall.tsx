@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Badge, Modal, Stack, Text } from '@mantine/core';
 import { IconCircleX, IconLoader2, IconTool } from '@tabler/icons-react';
-import { ToolCallPart } from './types.js';
+import { ToolCallPart } from '@hero-u/ai';
 import c from './ToolCall.module.css';
 
 export interface ToolCallProps {

@@ -1,6 +1,6 @@
 import { Alert, Stack } from '@mantine/core';
 import { Markdown } from '@hero-u/mantine';
-import { MessageContent, ToolCallPart } from './types.js';
+import { MessageContent, ToolCallPart } from '@hero-u/ai';
 import { Reasoning } from './Reasoning.js';
 import { ToolCall } from './ToolCall.js';
 
