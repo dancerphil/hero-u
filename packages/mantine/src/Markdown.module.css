@@ -7,4 +7,8 @@
     & :where(li) {
         padding-block: calc(var(--mantine-spacing-xs) / 2);
     }
+
+    & :where(blockquote) {
+        font-size: var(--mantine-font-size-md);
+    }
 }

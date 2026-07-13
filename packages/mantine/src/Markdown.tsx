@@ -3,6 +3,8 @@ import remarkGfm from 'remark-gfm';
 import { Typography } from '@mantine/core';
 import c from './Markdown.module.css';
 
+const classNames = { root: c.root };
+
 const remarkPlugins = [remarkGfm];
 
 interface Props {
@@ -11,18 +13,7 @@ interface Props {
 
 export const Markdown = ({ children }: Props) => {
     return (
-        <Typography
-            classNames={{
-                root: c.root,
-            }}
-            styles={{
-                root: {
-                    '& blockquote': {
-                        fontSize: 'inherit',
-                    },
-                },
-            }}
-        >
+        <Typography classNames={classNames}>
             <ReactMarkdown remarkPlugins={remarkPlugins}>
                 {children}
             </ReactMarkdown>

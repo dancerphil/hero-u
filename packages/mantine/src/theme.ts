@@ -4,6 +4,7 @@ import { renderOption } from './renderOption.js';
 
 export const themeOverride: MantineThemeOverride = {
     cursorType: 'pointer',
+    spacing: { xs: '8px', sm: '12px', md: '16px', lg: '20px', xl: '32px' },
     components: {
         Badge: {
             defaultProps: {
@@ -13,7 +14,7 @@ export const themeOverride: MantineThemeOverride = {
         Tooltip: {
             defaultProps: {
                 multiline: true,
-                maw: '40vw',
+                maw: '30vw',
             },
         },
         InputLabel: {

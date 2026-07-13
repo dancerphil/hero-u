@@ -52,7 +52,7 @@ export const typescriptConfigs: import('eslint').Linter.Config[] = [
             'prefer-promise-reject-errors': 'error',
             'no-param-reassign': 'error',
             'complexity': 'error',
-            'eqeqeq': ['error', 'smart'],
+            'eqeqeq': ['error', 'always'],
             'import-x/no-default-export': 'error',
             'import-x/order': ['error', {
                 groups: [
