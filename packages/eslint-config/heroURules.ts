@@ -103,25 +103,6 @@ export const noJavascriptSource: Rule.RuleModule = {
     },
 };
 
-export const createInterfaceTypes: Rule.RuleModule = {
-    meta: {
-        type: 'problem',
-        docs: { description: 'require createInterface type arguments' },
-        schema: [],
-        messages: { disallowed: 'api 接口类型未添加' },
-    },
-    create(context) {
-        return {
-            CallExpression(node: any) {
-                if (node.callee.type !== 'Identifier' || node.callee.name !== 'createInterface') return;
-                if (!node.typeArguments && !node.typeParameters) {
-                    context.report({ node, messageId: 'disallowed' });
-                }
-            },
-        };
-    },
-};
-
 export const noLocalStorage: Rule.RuleModule = {
     meta: {
         type: 'problem',

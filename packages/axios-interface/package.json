@@ -1,0 +1,35 @@
+{
+  "name": "axios-interface",
+  "version": "2.2.0",
+  "description": "create interface from axios",
+  "keywords": [
+    "axios",
+    "interface",
+    "typescript"
+  ],
+  "repository": "github:dancerphil/hero-u",
+  "author": "Cong Zhang <dancerphil1994@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "es/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf es/ && tsc",
+    "lint-type": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "axios": "^1.18.1"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^2.1.0"
+  }
+}

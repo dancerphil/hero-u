@@ -1,6 +1,5 @@
 import {
     aliasImportFromOwnModule,
-    createInterfaceTypes,
     invalidLayerImport,
     noClassDeclaration,
     noJavascriptSource,
@@ -17,7 +16,6 @@ export const heroU = {
         'no-react-namespace': noReactNamespace,
         'no-reexport': noReexport,
         'alias-import-from-own-module': aliasImportFromOwnModule,
-        'create-interface-types': createInterfaceTypes,
         'invalid-layer-import': invalidLayerImport,
         'no-javascript-source': noJavascriptSource,
         'no-local-storage': noLocalStorage,
@@ -42,7 +40,6 @@ export const heroUConfigs: import('eslint').Linter.Config[] = [{
         'hero-u/source-path-depth': 'error',
         'hero-u/invalid-layer-import': 'error',
         'hero-u/alias-import-from-own-module': 'error',
-        'hero-u/create-interface-types': 'error',
         'hero-u/no-local-storage': 'error',
     },
 }];
