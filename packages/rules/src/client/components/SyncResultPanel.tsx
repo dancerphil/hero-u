@@ -35,6 +35,11 @@ export const SyncResultPanel = ({ syncRunning, syncResults, syncConflicts, onOve
                     <Alert color="yellow" icon={<IconAlertCircle size={16} />}>
                         <Stack gap="xs">
                             <Text fz="sm">{t.sync.conflictDesc(syncConflicts.length)}</Text>
+                            <Stack gap={4}>
+                                {syncConflicts.map(conflict => (
+                                    <Code key={conflict.target} fz="xs">{conflict.target}</Code>
+                                ))}
+                            </Stack>
                             <Button size="xs" onClick={onOverwrite} loading={syncRunning}>
                                 {t.workflow.overwriteAndSync}
                             </Button>

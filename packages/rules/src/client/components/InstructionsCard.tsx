@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button, Card, Group, NavLink, ScrollArea, Stack, Text, TextInput, Textarea } from '@mantine/core';
 import { api } from '../api';
 import type { RuleVersion } from '../types.js';
@@ -15,20 +15,8 @@ export const InstructionsCard = ({ versions, onVersionsChange, selectedVersionId
     const t = useT();
     const [creatingVersion, setCreatingVersion] = useState(false);
     const [newVersionName, setNewVersionName] = useState('');
-    const [editingId, setEditingId] = useState<string | null>(selectedVersionId);
-    const [editingName, setEditingName] = useState('');
-    const [editingContent, setEditingContent] = useState('');
-    const [dirty, setDirty] = useState(false);
 
-    const selected = useMemo(() => versions.find(v => v.id === selectedVersionId) ?? null, [versions, selectedVersionId]);
-
-    // Reset editing state when selection changes
-    if (editingId !== selectedVersionId) {
-        setEditingId(selectedVersionId);
-        setEditingName(selected?.name ?? '');
-        setEditingContent(selected?.content ?? '');
-        setDirty(false);
-    }
+    const selected = versions.find(v => v.id === selectedVersionId) ?? null;
 
     async function handleCreate() {
         const name = newVersionName.trim();
@@ -40,26 +28,6 @@ export const InstructionsCard = ({ versions, onVersionsChange, selectedVersionId
         onSelectVersion(version.id);
         setCreatingVersion(false);
         setNewVersionName('');
-    }
-
-    async function handleSave() {
-        if (!selected) {
-            return;
-        }
-        const { version } = await api.versions.update(selected.id, { name: editingName, content: editingContent });
-        onVersionsChange(versions.map(v => (v.id === selected.id ? version : v)));
-        onSelectVersion(version.id);
-        setDirty(false);
-    }
-
-    async function handleDelete() {
-        if (!selected || !confirm(t.rules.deleteConfirm)) {
-            return;
-        }
-        await api.versions.delete(selected.id);
-        const remaining = versions.filter(v => v.id !== selected.id);
-        onVersionsChange(remaining);
-        onSelectVersion(remaining[0]?.id ?? null);
     }
 
     return (
@@ -94,34 +62,78 @@ export const InstructionsCard = ({ versions, onVersionsChange, selectedVersionId
                         {versions.length === 0 && <Text fz="xs" c="dimmed">{t.rules.noRules}</Text>}
                     </ScrollArea>
                 </Stack>
-                <Stack flex={1} style={{ minWidth: 0 }}>
-                    <TextInput
-                        value={editingName}
-                        placeholder={t.rules.ruleName}
-                        disabled={!selected}
-                        onChange={(e) => {
-                            setEditingName(e.target.value);
-                            setDirty(true);
-                        }}
-                    />
-                    <Textarea
-                        value={editingContent}
-                        disabled={!selected}
-                        placeholder={t.rules.contentPlaceholder}
-                        autosize
-                        minRows={10}
-                        styles={{ input: { fontFamily: 'monospace', fontSize: 12 } }}
-                        onChange={(e) => {
-                            setEditingContent(e.target.value);
-                            setDirty(true);
-                        }}
-                    />
-                    <Group justify="space-between">
-                        <Button size="xs" variant="subtle" color="red" disabled={!selected} onClick={() => void handleDelete()}>{t.common.delete}</Button>
-                        <Button size="xs" disabled={!selected || !dirty} onClick={() => void handleSave()}>{t.common.save}</Button>
-                    </Group>
-                </Stack>
+                <VersionEditor
+                    key={selectedVersionId ?? 'none'}
+                    selected={selected}
+                    versions={versions}
+                    onVersionsChange={onVersionsChange}
+                    onSelectVersion={onSelectVersion}
+                />
             </Group>
         </Card>
+    );
+};
+
+interface VersionEditorProps {
+    selected: RuleVersion | null;
+    versions: RuleVersion[];
+    onVersionsChange: (versions: RuleVersion[]) => void;
+    onSelectVersion: (id: string | null) => void;
+}
+
+const VersionEditor = ({ selected, versions, onVersionsChange, onSelectVersion }: VersionEditorProps) => {
+    const t = useT();
+    const [editingName, setEditingName] = useState(selected?.name ?? '');
+    const [editingContent, setEditingContent] = useState(selected?.content ?? '');
+    const [dirty, setDirty] = useState(false);
+
+    async function handleSave() {
+        if (!selected) {
+            return;
+        }
+        const { version } = await api.versions.update(selected.id, { name: editingName, content: editingContent });
+        onVersionsChange(versions.map(v => (v.id === selected.id ? version : v)));
+        onSelectVersion(version.id);
+        setDirty(false);
+    }
+
+    async function handleDelete() {
+        if (!selected || !confirm(t.rules.deleteConfirm)) {
+            return;
+        }
+        await api.versions.delete(selected.id);
+        const remaining = versions.filter(v => v.id !== selected.id);
+        onVersionsChange(remaining);
+        onSelectVersion(remaining[0]?.id ?? null);
+    }
+
+    return (
+        <Stack flex={1} style={{ minWidth: 0 }}>
+            <TextInput
+                value={editingName}
+                placeholder={t.rules.ruleName}
+                disabled={!selected}
+                onChange={(e) => {
+                    setEditingName(e.target.value);
+                    setDirty(true);
+                }}
+            />
+            <Textarea
+                value={editingContent}
+                disabled={!selected}
+                placeholder={t.rules.contentPlaceholder}
+                autosize
+                minRows={10}
+                styles={{ input: { fontFamily: 'monospace', fontSize: 12 } }}
+                onChange={(e) => {
+                    setEditingContent(e.target.value);
+                    setDirty(true);
+                }}
+            />
+            <Group justify="space-between">
+                <Button size="xs" variant="subtle" color="red" disabled={!selected} onClick={() => void handleDelete()}>{t.common.delete}</Button>
+                <Button size="xs" disabled={!selected || !dirty} onClick={() => void handleSave()}>{t.common.save}</Button>
+            </Group>
+        </Stack>
     );
 };
