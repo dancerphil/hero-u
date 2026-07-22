@@ -50,6 +50,8 @@ export const unicornConfigs: import('eslint').Linter.Config[] = [
             'unicorn/prefer-continue': 'off',
             'unicorn/no-duplicate-if-branches': 'off',
             'unicorn/prefer-boolean-return': 'off',
+            'unicorn/prefer-simple-condition-first': 'off',
+            'unicorn/prefer-then-catch': 'off',
         },
     },
 ];

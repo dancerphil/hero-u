@@ -1,4 +1,4 @@
-import { tool } from 'ai';
+import { tool, type Tool } from 'ai';
 import { z } from 'zod';
 
 export interface WebNews {
@@ -85,7 +85,7 @@ export interface CreateWebSearchToolOptions {
 }
 
 // 把 OpenRouter 联网搜索包成一个 AI SDK 工具；可自定义的部分都通过参数传入。
-export const createWebSearchTool = (options: CreateWebSearchToolOptions) => {
+export const createWebSearchTool = (options: CreateWebSearchToolOptions): Tool<{ query: string }, WebNews[]> => {
     const { apiKey, model, description = '联网搜索最新信息，返回相关网页的标题、链接与摘要。', maxResults, prompt } = options;
     return tool({
         description: `今天是 ${today}。${description}`,
