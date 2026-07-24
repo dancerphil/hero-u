@@ -1,6 +1,5 @@
 import { Input, MantineThemeOverride } from '@mantine/core';
 import c from './theme.module.css';
-import { renderOption } from './renderOption.js';
 
 export const themeOverride: MantineThemeOverride = {
     cursorType: 'pointer',
@@ -9,6 +8,11 @@ export const themeOverride: MantineThemeOverride = {
         Badge: {
             defaultProps: {
                 tt: 'none',
+            },
+        },
+        Blockquote: {
+            defaultProps: {
+                fz: 'md',
             },
         },
         Tooltip: {
@@ -30,7 +34,17 @@ export const themeOverride: MantineThemeOverride = {
         Input: Input.extend({ classNames: { input: c.input } }),
         Select: {
             defaultProps: {
-                renderOption,
+                checkIconPosition: 'right',
+            },
+        },
+        MultiSelect: {
+            defaultProps: {
+                checkIconPosition: 'right',
+            },
+        },
+        ComboboxPopover: {
+            defaultProps: {
+                checkIconPosition: 'right',
             },
         },
         Modal: {
