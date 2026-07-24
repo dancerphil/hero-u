@@ -45,7 +45,7 @@ export const startFeishuGateway = async (config: FeishuConfig): Promise<void> =>
         console.error('获取飞书机器人信息失败，群聊 @ 将不响应:', error);
     }
 
-    const send = (receiveId: string, text: string): Promise<void> => sendText(client, receiveId, text);
+    const send = (receiveId: string, text: string): Promise<void> => sendText({ client, receiveId, text });
 
     const isMentioningBot = (message: Message): boolean =>
         (message.mentions ?? []).some(mention => mention.id.open_id === botOpenId);

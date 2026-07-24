@@ -20,11 +20,13 @@ export const createValidate = <T>(validator: Validator<T>, params?: any) => {
         const setErrors: ValidateSetErrors = (path, error) => {
             set(errors, path, error);
         };
+        // eslint-disable-next-line hero-u/function-parameters
         const should: ValidateShould = (path, shouldBe, error) => {
             if (!shouldBe(get(values, path))) {
                 set(errors, path, error);
             }
         };
+        // eslint-disable-next-line hero-u/function-parameters
         const shouldNot: ValidateShould = (path, shouldNotBe, error) => {
             if (shouldNotBe(get(values, path))) {
                 set(errors, path, error);

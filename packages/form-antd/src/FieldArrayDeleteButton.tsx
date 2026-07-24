@@ -4,7 +4,13 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Path, useFormContext } from '@hero-u/form-core';
 import { DeleteButtonProps } from './FieldArrayInterface.js';
 
-const withDisabledReason = (button: ReactNode, disabled?: boolean, disabledReason?: string) => {
+interface DisabledReasonProps {
+    button: ReactNode;
+    disabled?: boolean;
+    disabledReason?: string;
+}
+
+const withDisabledReason = ({ button, disabled, disabledReason }: DisabledReasonProps) => {
     if (disabled && disabledReason) {
         return <Tooltip title={disabledReason}>{button}</Tooltip>;
     }
@@ -12,35 +18,39 @@ const withDisabledReason = (button: ReactNode, disabled?: boolean, disabledReaso
 };
 
 export function DefaultDeleteButton({ disabled, disabledReason, onDelete }: DeleteButtonProps) {
-    return withDisabledReason(
-        <Button
-            type="text"
-            icon={<DeleteOutlined />}
-            onClick={onDelete}
-            disabled={disabled}
-        >
-            删除
-        </Button>,
+    return withDisabledReason({
+        button: (
+            <Button
+                type="text"
+                icon={<DeleteOutlined />}
+                onClick={onDelete}
+                disabled={disabled}
+            >
+                删除
+            </Button>
+        ),
         disabled,
         disabledReason,
-    );
+    });
 }
 
 export function DefaultTableDeleteButton({ disabled, disabledReason, onDelete }: DeleteButtonProps) {
     return (
         <div style={{ display: 'flex', alignItems: 'center', marginLeft: -8 }}>
-            {withDisabledReason(
-                <Button
-                    type="text"
-                    icon={<DeleteOutlined />}
-                    onClick={onDelete}
-                    disabled={disabled}
-                >
-                    删除
-                </Button>,
+            {withDisabledReason({
+                button: (
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={onDelete}
+                        disabled={disabled}
+                    >
+                        删除
+                    </Button>
+                ),
                 disabled,
                 disabledReason,
-            )}
+            })}
         </div>
     );
 }

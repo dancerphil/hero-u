@@ -1,3 +1,4 @@
+import { functionParameters } from './functionParametersRule.js';
 import {
     aliasImportFromOwnModule,
     invalidLayerImport,
@@ -12,6 +13,7 @@ import {
 
 export const heroU = {
     rules: {
+        'function-parameters': functionParameters,
         'no-class-declaration': noClassDeclaration,
         'no-react-namespace': noReactNamespace,
         'no-reexport': noReexport,
@@ -29,6 +31,7 @@ export const heroUConfigs: import('eslint').Linter.Config[] = [{
         'hero-u': heroU,
     },
     rules: {
+        'hero-u/function-parameters': 'error',
         'hero-u/no-class-declaration': 'error',
         'hero-u/no-react-namespace': 'error',
         'hero-u/no-reexport': 'error',

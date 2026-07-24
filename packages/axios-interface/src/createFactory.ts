@@ -2,7 +2,7 @@
  * @file 通用API请求功能
  * @author zhangcong06, zhanglili
  */
-/* eslint-disable unicorn/prefer-await */
+/* eslint-disable unicorn/prefer-await, hero-u/function-parameters */
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { omit } from './utils/omit.js';
 import { basicParamsTransform } from './utils/onPendingUtils.js';

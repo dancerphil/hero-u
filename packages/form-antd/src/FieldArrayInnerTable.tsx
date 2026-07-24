@@ -42,8 +42,7 @@ export function FieldArrayInnerTable({
                         title: '操作',
                         dataIndex: 'action',
                         width: 100,
-
-                        render(name: string, record: any, index: number) {
+                        render: (name: string, record: any, index: number) => {
                             return (
                                 <FieldArrayDeleteButton
                                     keyPath={keyPath}

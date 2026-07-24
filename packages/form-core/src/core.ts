@@ -57,6 +57,7 @@ const relatedCompareFn = (a: string, b: string) => a.startsWith(b) || b.startsWi
 
 // set 的不可变版本：沿写入路径浅克隆每一层容器，兄弟节点保持原引用。
 // 引用变化范围因此精确等于「写入路径的祖先链」，与 related 通知策略对齐。
+// eslint-disable-next-line hero-u/function-parameters
 const setIn = (object: any, path: Path, value: any): any => {
     if (path.length === 0) {
         return value;
