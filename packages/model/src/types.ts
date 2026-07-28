@@ -6,10 +6,16 @@ export interface OpenRouterModelArchitecture {
     instruct_type?: string | null;
 }
 
+export interface OpenRouterModelPricingOverride {
+    min_prompt_tokens: number;
+    [key: string]: number | string | undefined;
+}
+
 export interface OpenRouterModelPricing {
     prompt?: string;
     completion?: string;
-    [key: string]: string | undefined;
+    overrides?: OpenRouterModelPricingOverride[];
+    [key: string]: OpenRouterModelPricingOverride[] | string | undefined;
 }
 
 export interface OpenRouterTopProvider {

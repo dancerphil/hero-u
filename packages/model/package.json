@@ -1,6 +1,6 @@
 {
   "name": "@hero-u/model",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "hero-u model id parser and OpenRouter model types",
   "keywords": [
     "hero-u",

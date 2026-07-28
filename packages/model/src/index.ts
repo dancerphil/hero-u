@@ -5,6 +5,7 @@ export { isVersion, isParameter, isPreview, isSnapshot } from './transitionCondi
 export type {
     OpenRouterModelArchitecture,
     OpenRouterModelPricing,
+    OpenRouterModelPricingOverride,
     OpenRouterTopProvider,
     OpenRouterModelLinks,
     OpenRouterModel,
