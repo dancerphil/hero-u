@@ -261,6 +261,12 @@ importers:
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
+      rich-textarea:
+        specifier: ^0.27.1
+        version: 0.27.1(react@19.2.8)
+      tsx:
+        specifier: ^4.23.1
+        version: 4.23.1
 
   packages/model: {}
 
@@ -2969,6 +2975,11 @@ packages:
     resolution: {integrity: sha512-TyeJ1zif53BPfHootBGwPRYT1RUt6oGWsaQr8UyZW/eAm9bKoijtvruSDEmZHm92CwS9nj7/fWttqPCgzep8CA==}
     engines: {node: '>= 0.4'}
     hasBin: true
+
+  rich-textarea@0.27.1:
+    resolution: {integrity: sha512-jZvbsrEf5cW8WdIBgxJhTM7g0jeHPh9F8Cpqle35xNVno/lgfQQ6X7BKwi/lY1ybTVSCYdDAmwKTpN0EJT/x+A==}
+    peerDependencies:
+      react: '>=16.14.0'
 
   rolldown@1.1.5:
     resolution: {integrity: sha512-t9z29cJjXf/vxQ8dyhCSpt6H6aSwHTk8cT5I3iy6SMXuFpk5mB6PL6XfC8PCwrPTx93udwKUm9HRteAlTGBLiA==}
@@ -6475,6 +6486,10 @@ snapshots:
       is-core-module: 2.16.2
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+
+  rich-textarea@0.27.1(react@19.2.8):
+    dependencies:
+      react: 19.2.8
 
   rolldown@1.1.5:
     dependencies:
