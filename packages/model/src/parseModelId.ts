@@ -12,7 +12,12 @@ export interface ParsedModelId {
     variant: string;
 }
 
-const splitQwenVersionPart = (part: string): string[] => {
+const joinedVersionPrefixes: Record<string, string> = {
+    qwen: 'qwen',
+    tencent: 'hy',
+};
+
+const splitJoinedVersionPart = (part: string): string[] => {
     const providerSeparatorIndex = part.indexOf('/');
 
     if (providerSeparatorIndex === -1) {
@@ -21,18 +26,19 @@ const splitQwenVersionPart = (part: string): string[] => {
 
     const provider = part.slice(0, providerSeparatorIndex);
     const model = part.slice(providerSeparatorIndex + 1);
+    const prefix = joinedVersionPrefixes[provider];
 
-    if (provider !== 'qwen' || !model.startsWith('qwen') || model.length <= 4) {
+    if (!prefix || !model.startsWith(prefix) || model.length <= prefix.length) {
         return [part];
     }
 
-    const version = model.slice(4);
+    const version = model.slice(prefix.length);
 
     if (!isVersion(version)) {
         return [part];
     }
 
-    return [`${provider}/qwen`, version];
+    return [`${provider}/${prefix}`, version];
 };
 
 export const parseModelId = (id: string): ParsedModelId => {
@@ -44,7 +50,7 @@ export const parseModelId = (id: string): ParsedModelId => {
             return [part];
         }
 
-        return splitQwenVersionPart(part);
+        return splitJoinedVersionPart(part);
     });
     const nameParts: string[] = [];
     const familyParts: string[] = [];

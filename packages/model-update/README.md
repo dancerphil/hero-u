@@ -12,6 +12,10 @@ npx @hero-u/model-update openai,anthropic
 npx @hero-u/model-update openai,anthropic --file src/ai/models.ts
 ```
 
+```shell
+npx @hero-u/model-update openai,anthropic,google --ban anthropic/claude,google/lyria
+```
+
 ### Output
 
 ```ts

@@ -5,13 +5,12 @@ import { fetchOpenRouterModels } from './fetch.js';
 import { pickIds } from './pickIds.js';
 
 interface Options {
+    ban?: string[];
     filePath?: string;
     providers: string[];
 }
 
 export const defaultOutputFile = 'src/ai/models.ts';
-
-const ban = ['anthropic/claude'];
 
 const createOutputContent = (modelIds: string[], models: OpenRouterModel[]) => `import type { OpenRouterModel } from '@hero-u/model';
 
@@ -31,7 +30,7 @@ export const updateModelList = async (options: Options) => {
     options.providers.forEach((provider) => {
         const idsAll = modelIds.filter(id => id.startsWith(`${provider}/`));
         const ids = pickIds(idsAll);
-        const allowedIds = ids.filter(id => !ban.includes(parseModelId(id).name));
+        const allowedIds = ids.filter(id => !options.ban?.includes(parseModelId(id).name));
         pickedIds.push(...allowedIds);
     });
     const pickedModels = pickedIds.map(id => map[id]);

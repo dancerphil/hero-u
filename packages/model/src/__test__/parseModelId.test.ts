@@ -106,6 +106,13 @@ describe('parseModelId', () => {
             name: 'z-ai/glm',
             version: '4.6v',
         });
+
+        expect(f('tencent/hy3')).toEqual({
+            id: 'tencent/hy3',
+            provider: 'tencent',
+            name: 'tencent/hy',
+            version: '3',
+        });
     });
 
     test('preview and snapshot', () => {
