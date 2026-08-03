@@ -5,3 +5,51 @@
 .input[data-variant='active'] {
     --input-bd: var(--mantine-primary-color-filled);
 }
+
+.splitter-handle {
+    z-index: 1;
+    background: transparent;
+}
+
+.splitter-handle[data-orientation='horizontal'] {
+    margin-inline: -5px;
+}
+
+.splitter-handle[data-orientation='vertical'] {
+    margin-block: -5px;
+}
+
+.splitter-handle::before {
+    position: absolute;
+    background: var(--mantine-color-default-border);
+    content: '';
+}
+
+.splitter-handle[data-orientation='horizontal']::before {
+    inset-block: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+.splitter-handle[data-orientation='vertical']::before {
+    inset-inline: 0;
+    top: 50%;
+    height: 1px;
+    transform: translateY(-50%);
+}
+
+.splitter-handle[data-orientation='horizontal']:hover::before,
+.splitter-handle[data-orientation='horizontal'][data-active]::before {
+    width: 3px;
+}
+
+.splitter-handle[data-orientation='vertical']:hover::before,
+.splitter-handle[data-orientation='vertical'][data-active]::before {
+    height: 3px;
+}
+
+.splitter-handle:hover::before,
+.splitter-handle[data-active]::before {
+    background: var(--mantine-primary-color-filled);
+}

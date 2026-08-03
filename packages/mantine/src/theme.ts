@@ -31,6 +31,13 @@ export const themeOverride: MantineThemeOverride = {
                 withThumbIndicator: false,
             },
         },
+        Splitter: {
+            defaultProps: {
+                lineSize: 11,
+                withHandle: false,
+                classNames: { handle: c['splitter-handle'] },
+            },
+        },
         Input: Input.extend({ classNames: { input: c.input } }),
         Select: {
             defaultProps: {
