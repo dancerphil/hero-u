@@ -21,7 +21,7 @@ export function ColorPresetSwatches({ value, onChange }: ColorValueProps) {
                     className={classes.swatch}
                     onClick={() => onChange(color)}
                 >
-                    {value === color && <CheckIcon size={14} />}
+                    {value === color && <CheckIcon size={14} color="white" />}
                 </ColorSwatch>
             ))}
         </Group>

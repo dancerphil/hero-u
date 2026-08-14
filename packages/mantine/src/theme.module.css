@@ -4,6 +4,7 @@
 
 .input[data-variant='active'] {
     --input-bd: var(--mantine-primary-color-filled);
+    --input-bd-focus: var(--mantine-primary-color-filled);
 }
 
 .splitter-handle {

@@ -3,6 +3,7 @@ import {
     CheckIcon,
     ColorPicker,
     ColorSwatch,
+    luminance,
     Popover,
     TextInput,
 } from '@mantine/core';
@@ -39,7 +40,10 @@ export function ColorCustomControls({ value, onChange }: ColorValueProps) {
                             color={value}
                             className={classes.swatch}
                         >
-                            <CheckIcon size={14} />
+                            <CheckIcon
+                                size={14}
+                                color={luminance(value) < 0.5 ? 'white' : 'black'} // 对齐 Mantine 原版 Swatches
+                            />
                         </ColorSwatch>
                     ) : (
                         <ActionIcon size="lg" variant="default">
