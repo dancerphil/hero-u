@@ -1,4 +1,4 @@
-import type { Tool, RuleVersion, Project, AppConfig, ConflictItem, SyncResult } from './types.js';
+import type { Tool, RuleVersion, Project, AppConfig, ConflictItem, SyncResult, ModelEntry, ModelProvider, ModelTarget } from './types.js';
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
     const response = await fetch(url, {
@@ -82,5 +82,41 @@ export const api = {
                 body: JSON.stringify(data),
             }),
         open: () => request<{ success: boolean; path: string }>('/api/config/open', { method: 'POST' }),
+    },
+    models: {
+        list: () => request<{ providers: ModelProvider[]; targets: ModelTarget[] }>('/api/models'),
+        createProvider: (data: { name: string; baseURL: string }) =>
+            request<{ provider: ModelProvider }>('/api/models/providers', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            }),
+        updateProvider: (id: string, data: Partial<ModelProvider>) =>
+            request<{ provider: ModelProvider }>(`/api/models/providers/${encodeURIComponent(id)}`, {
+                method: 'PUT',
+                body: JSON.stringify(data),
+            }),
+        deleteProvider: (id: string) =>
+            request<{ success: boolean }>(`/api/models/providers/${encodeURIComponent(id)}`, { method: 'DELETE' }),
+        fetchProvider: (id: string) =>
+            request<{ provider: ModelProvider }>(`/api/models/providers/${encodeURIComponent(id)}/fetch`, { method: 'POST' }),
+        saveProviderModels: (id: string, models: ModelEntry[]) =>
+            request<{ provider: ModelProvider }>(`/api/models/providers/${encodeURIComponent(id)}/models`, {
+                method: 'PUT',
+                body: JSON.stringify({ models }),
+            }),
+        createTarget: (data: { name: string; projectRoot: string; filePath: string }) =>
+            request<{ target: ModelTarget }>('/api/models/targets', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            }),
+        updateTarget: (id: string, data: Partial<ModelTarget>) =>
+            request<{ target: ModelTarget }>(`/api/models/targets/${encodeURIComponent(id)}`, {
+                method: 'PUT',
+                body: JSON.stringify(data),
+            }),
+        deleteTarget: (id: string) =>
+            request<{ success: boolean }>(`/api/models/targets/${encodeURIComponent(id)}`, { method: 'DELETE' }),
+        runTarget: (id: string) =>
+            request<{ filePath: string; count: number }>(`/api/models/targets/${encodeURIComponent(id)}/update`, { method: 'POST' }),
     },
 };

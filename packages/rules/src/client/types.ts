@@ -66,3 +66,33 @@ export interface SyncResult {
     skipped?: boolean;
     error?: string;
 }
+
+export interface ModelEntry {
+    id: string;
+    name: string;
+    input: number;
+    output: number;
+    enabled: boolean;
+}
+
+export interface ModelProvider {
+    id: string;
+    name: string;
+    baseURL: string;
+    apiKey?: string;
+    prefixes: string[];
+    outPrefix: string;
+    group?: string;
+    currency?: 'USD' | 'CNY';
+    models: ModelEntry[];
+    fetchedAt: string | null;
+}
+
+export interface ModelTarget {
+    id: string;
+    name: string;
+    projectRoot: string;
+    filePath: string;
+    providers: string[];
+    header: string;
+}

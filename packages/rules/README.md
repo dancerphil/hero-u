@@ -24,3 +24,13 @@ Visit http://localhost:7788 to manage your AI rules:
 - Import existing rules
 - Add, edit, and delete your rules
 - Assign appropriate rules to all tools and projects, and synchronize
+
+### Model management
+
+Switch to the "Models" page:
+
+- Add OpenAI-compatible endpoints (e.g. OpenRouter, opencode go) and discover models via /v1/models
+- Pick the models you want and maintain input/output prices (per 1M tokens)
+- Register codebase target files and update their model list source with one click
+
+Configuration is stored in ~/.hero-u/models.

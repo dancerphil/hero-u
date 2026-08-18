@@ -8,6 +8,7 @@ import { router as versionsRouter } from './routes/versions.js';
 import { router as foldersRouter } from './routes/folders.js';
 import { router as syncRouter } from './routes/sync.js';
 import { router as configRouter } from './routes/config.js';
+import { router as modelsRouter } from './models/routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,6 +34,7 @@ export function createApp(): Hono {
     app.route('/api/folders', foldersRouter);
     app.route('/api/sync', syncRouter);
     app.route('/api/config', configRouter);
+    app.route('/api/models', modelsRouter);
 
     // Serve static client files in production
     app.get('/*', async (c) => {
